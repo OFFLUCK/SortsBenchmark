@@ -24,7 +24,7 @@ double randomArrayMeasure(Func func) {
     func(arrLength, arr);
     clock_t end = clock();
 
-    return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
 }
 
 double sortedArrayMeasure(Func func) {
@@ -37,7 +37,7 @@ double sortedArrayMeasure(Func func) {
     func(arrLength, arr);
     clock_t end = clock();
 
-    return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
 }
 
 double reverseSortedArrayMeasure(Func func) {
@@ -50,7 +50,7 @@ double reverseSortedArrayMeasure(Func func) {
     func(arrLength, arr);
     clock_t end = clock();
 
-    return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
 }
 
 double allElementsAreSameArrayMeasure(Func func) {
@@ -60,15 +60,15 @@ double allElementsAreSameArrayMeasure(Func func) {
     func(arrLength, arr);
     clock_t end = clock();
 
-    return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
 }
 
 void measure(Func func, std::string const &func_name, std::ofstream &fout) {
     fout << func_name << ' ' << "benchmark:" << '\n';
-    fout << "    " << "1). Random array:" << randomArrayMeasure(func) << '\n';
-    fout << "    " << "2). Sorted array:" << sortedArrayMeasure(func) << '\n';
-    fout << "    " << "3). Reverse sorted array:" << reverseSortedArrayMeasure(func) << '\n';
-    fout << "    " << "4). Array with all same elements:" << allElementsAreSameArrayMeasure(func) << '\n';
+    fout << "    " << "1). Random array: " << randomArrayMeasure(func) << "ms" << '\n';
+    fout << "    " << "2). Sorted array: " << sortedArrayMeasure(func) << "ms" << '\n';
+    fout << "    " << "3). Reverse sorted array: " << reverseSortedArrayMeasure(func) << "ms" << '\n';
+    fout << "    " << "4). Array with all same elements: " << allElementsAreSameArrayMeasure(func) << "ms" << '\n';
 }
 
 void printSeparator(std::ofstream &fout) {
