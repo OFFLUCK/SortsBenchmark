@@ -3,13 +3,41 @@
 #include <ctime>
 #include "sorts/sorts.hpp"
 
-typedef std::vector<int> (*func)(int len, std::vector<int> arr);
+typedef std::vector<int> (*Func)(int len, std::vector<int> arr);
+
 constexpr int numOfFuncs = 12;
+constexpr int arrLength = 1000;
+
+double randomArrayMeasure(Func func) {
+    // TODO...
+}
+
+double sortedArrayMeasure(Func func) {
+    // TODO...
+}
+
+double reverseSortedArrayMeasure(Func func) {
+    // TODO...
+}
+
+double allElementsAreSameArrayMeasure(Func func) {
+    // TODO...
+}
+
+void measure(Func func, std::string const &func_name) {
+    std::ofstream fout("../docs/results.txt");
+
+    fout << func_name << ' ' << "benchmark:";
+    fout << "    " << "1). Random array:" << randomArrayMeasure(func);
+    fout << "    " << "2). Sorted array:" << sortedArrayMeasure(func);
+    fout << "    " << "3). Reverse sorted array:" << reverseSortedArrayMeasure(func);
+    fout << "    " << "4). Array with all same elements:" << allElementsAreSameArrayMeasure(func);
+
+    fout.close();
+}
 
 int main() {
     std::cout << "Start" << '\n';
-    std::ifstream fin;
-    std::ofstream fout("../docs/results.txt");
 
     std::vector<std::string> func_names = {
             "Bubble sort",
@@ -26,7 +54,7 @@ int main() {
             "Heap sort",
     };
 
-    std::vector<func> funcs = {
+    std::vector<Func> funcs = {
             bubbleSort,
             bubbleIversonOneSort,
             bubbleIversonOneAndTwoSort,
@@ -41,17 +69,9 @@ int main() {
             heapSort,
     };
 
-    clock_t start;
-    clock_t end;
-    double time;
     for (int i = 0; i < numOfFuncs; ++i) {
         std::cout << "Measuring" << ' ' << func_names[i] << '\n';
-        start = std::clock();
-        // TODO: time measurement.
-        end = std::clock();
-
-        time = static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
-        fout << func_names[i] << ": " << time << "ms" << '\n';
+        measure(funcs[i], func_names[i]);
     }
 
     std::cout << "End" << '\n';
