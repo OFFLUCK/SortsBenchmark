@@ -1,12 +1,13 @@
 #include <iostream>
 #include <fstream>
+#include <ctime>
 #include "sorts/sorts.hpp"
 
 constexpr int numOfFuncs = 12;
 typedef std::vector<int> (*func)(int len, std::vector<int> arr);
 
 int main() {
-    std::cout << "test" << '\n';
+    std::cout << "Start" << '\n';
     std::ifstream fin;
     std::ofstream fout("../docs/results.txt");
     
@@ -40,11 +41,19 @@ int main() {
             heapSort,
     };
 
-    double time = 0;
+    clock_t start;
+    clock_t end;
+    double time;
     for (int i = 0; i < numOfFuncs; ++i) {
+        std::cout << "Measuring" << ' ' << func_names[i] << '\n';
+        start = std::clock();
         // TODO: time measurement.
+        end = std::clock();
+
+        time = static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
         fout << func_names[i] << ": " << time << "ms" << '\n';
     }
 
+    std::cout << "End" << '\n';
     return 0;
 }
