@@ -3,14 +3,14 @@
 #include <ctime>
 #include "sorts/sorts.hpp"
 
-constexpr int numOfFuncs = 12;
 typedef std::vector<int> (*func)(int len, std::vector<int> arr);
+constexpr int numOfFuncs = 12;
 
 int main() {
     std::cout << "Start" << '\n';
     std::ifstream fin;
     std::ofstream fout("../docs/results.txt");
-    
+
     std::vector<std::string> func_names = {
             "Bubble sort",
             "Bubble sort Iverson 1",
