@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <random>
+#include <algorithm>
 #include <ctime>
 #include "sorts/sorts.hpp"
 
@@ -9,30 +11,56 @@ constexpr int numOfFuncs = 12;
 constexpr int arrLength = 1000;
 
 double randomArrayMeasure(Func func) {
-    clock_t start;
-    clock_t end;
-    // TODO...
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::vector<int> arr(arrLength);
+    for (int i = 0; i < arrLength; ++i) {
+        arr[i] = i;
+    }
+
+    std::shuffle(arr.begin(), arr.end(), gen);
+
+    clock_t start = clock();
+    func(arrLength, arr);
+    clock_t end = clock();
+
     return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
 double sortedArrayMeasure(Func func) {
-    clock_t start;
-    clock_t end;
-    // TODO...
+    std::vector<int> arr(arrLength);
+    for (int i = 0; i < arrLength; ++i) {
+        arr[i] = i;
+    }
+
+    clock_t start = clock();
+    func(arrLength, arr);
+    clock_t end = clock();
+
     return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
 double reverseSortedArrayMeasure(Func func) {
-    clock_t start;
-    clock_t end;
-    // TODO...
+    std::vector<int> arr(arrLength);
+    for (int i = 0; i < arrLength; ++i) {
+        arr[i] = arrLength - i - 1;
+    }
+
+    clock_t start = clock();
+    func(arrLength, arr);
+    clock_t end = clock();
+
     return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
 double allElementsAreSameArrayMeasure(Func func) {
-    clock_t start;
-    clock_t end;
-    // TODO...
+    std::vector<int> arr(arrLength, arrLength);
+
+    clock_t start = clock();
+    func(arrLength, arr);
+    clock_t end = clock();
+
     return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
