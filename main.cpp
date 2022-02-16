@@ -63,20 +63,25 @@ double allElementsAreSameArrayMeasure(Func func) {
     return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
-void measure(Func func, std::string const &func_name) {
-    std::ofstream fout("../docs/results.txt");
+void measure(Func func, std::string const &func_name, std::ofstream &fout) {
+    fout << func_name << ' ' << "benchmark:" << '\n';
+    fout << "    " << "1). Random array:" << randomArrayMeasure(func) << '\n';
+    fout << "    " << "2). Sorted array:" << sortedArrayMeasure(func) << '\n';
+    fout << "    " << "3). Reverse sorted array:" << reverseSortedArrayMeasure(func) << '\n';
+    fout << "    " << "4). Array with all same elements:" << allElementsAreSameArrayMeasure(func) << '\n';
+}
 
-    fout << func_name << ' ' << "benchmark:";
-    fout << "    " << "1). Random array:" << randomArrayMeasure(func);
-    fout << "    " << "2). Sorted array:" << sortedArrayMeasure(func);
-    fout << "    " << "3). Reverse sorted array:" << reverseSortedArrayMeasure(func);
-    fout << "    " << "4). Array with all same elements:" << allElementsAreSameArrayMeasure(func);
-
-    fout.close();
+void printSeparator(std::ofstream &fout) {
+    fout << '\n';
+    for (int i = 0; i < 100; ++i) {
+        fout << '-';
+    }
+    fout << '\n';
 }
 
 int main() {
     std::cout << "Start" << '\n';
+    std::ofstream fout("../docs/results.txt");
 
     std::vector<std::string> func_names = {
             "Bubble sort",
@@ -110,7 +115,8 @@ int main() {
 
     for (int i = 0; i < numOfFuncs; ++i) {
         std::cout << "Measuring" << ' ' << func_names[i] << '\n';
-        measure(funcs[i], func_names[i]);
+        measure(funcs[i], func_names[i], fout);
+        printSeparator(fout);
     }
 
     std::cout << "End" << '\n';

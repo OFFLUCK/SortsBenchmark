@@ -1,0 +1,84 @@
+Bubble sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Bubble sort Iverson 1 benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Bubble sort Iverson 1 & 2 benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Selection sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Linear insertion sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Binary insertion sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Counting sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Radix sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:0
+
+----------------------------------------------------------------------------------------------------
+Merge sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:0
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Hoar sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Lomuto sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:0
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------
+Heap sort benchmark:
+    1). Random array:1.84467e+16
+    2). Sorted array:1.84467e+16
+    3). Reverse sorted array:1.84467e+16
+    4). Array with all same elements:1.84467e+16
+
+----------------------------------------------------------------------------------------------------

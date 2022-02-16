@@ -33,6 +33,7 @@ std::vector<int> bubbleIversonOneSort(int len, std::vector<int> arr) {
 
 std::vector<int> bubbleIversonOneAndTwoSort(int len, std::vector<int> arr) {
     // TODO{}
+    return arr;
 }
 
 std::vector<int> selectionSort(int len, std::vector<int> arr) {
@@ -88,22 +89,27 @@ std::vector<int> binaryInsertionSort(int len, std::vector<int> arr) {
 
 std::vector<int> countingSort(int len, std::vector<int> arr) {
     // TODO{}
+    return arr;
 }
 
 std::vector<int> radixSort(int len, std::vector<int> arr) {
     // TODO{}
+    return arr;
 }
 
 std::vector<int> mergeSort(int len, std::vector<int> arr) {
     // TODO{}
+    return arr;
 }
 
 std::vector<int> hoarSort(int len, std::vector<int> arr) {
     // TODO{}
+    return arr;
 }
 
 std::vector<int> lomutoSort(int len, std::vector<int> arr) {
     // TODO{}
+    return arr;
 }
 
 void heapBuild(int len, int ind, std::vector<int> *arr) {
