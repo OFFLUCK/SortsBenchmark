@@ -9,19 +9,31 @@ constexpr int numOfFuncs = 12;
 constexpr int arrLength = 1000;
 
 double randomArrayMeasure(Func func) {
+    clock_t start;
+    clock_t end;
     // TODO...
+    return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
 double sortedArrayMeasure(Func func) {
+    clock_t start;
+    clock_t end;
     // TODO...
+    return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
 double reverseSortedArrayMeasure(Func func) {
+    clock_t start;
+    clock_t end;
     // TODO...
+    return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
 double allElementsAreSameArrayMeasure(Func func) {
+    clock_t start;
+    clock_t end;
     // TODO...
+    return static_cast<double>(start - end) * 1000 / CLOCKS_PER_SEC;
 }
 
 void measure(Func func, std::string const &func_name) {
