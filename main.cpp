@@ -8,6 +8,7 @@
 typedef std::vector<int> (*Func)(int len, std::vector<int> arr);
 
 constexpr int numOfFuncs = 12;
+constexpr int milis = 1000;
 constexpr int arrLength = 1000;
 
 double randomArrayMeasure(Func func) {
@@ -24,7 +25,7 @@ double randomArrayMeasure(Func func) {
     func(arrLength, arr);
     clock_t end = clock();
 
-    return static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>(end - start) * milis / CLOCKS_PER_SEC;
 }
 
 double sortedArrayMeasure(Func func) {
@@ -37,7 +38,7 @@ double sortedArrayMeasure(Func func) {
     func(arrLength, arr);
     clock_t end = clock();
 
-    return static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>(end - start) * milis / CLOCKS_PER_SEC;
 }
 
 double reverseSortedArrayMeasure(Func func) {
@@ -50,7 +51,7 @@ double reverseSortedArrayMeasure(Func func) {
     func(arrLength, arr);
     clock_t end = clock();
 
-    return static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>(end - start) * milis / CLOCKS_PER_SEC;
 }
 
 double allElementsAreSameArrayMeasure(Func func) {
@@ -60,7 +61,7 @@ double allElementsAreSameArrayMeasure(Func func) {
     func(arrLength, arr);
     clock_t end = clock();
 
-    return static_cast<double>(end - start) * 1000 / CLOCKS_PER_SEC;
+    return static_cast<double>(end - start) * milis / CLOCKS_PER_SEC;
 }
 
 void measure(Func func, std::string const &func_name, std::ofstream &fout) {
