@@ -11,14 +11,13 @@ constexpr int numOfFuncs = 12;
 constexpr int arrLength = 1000;
 
 double randomArrayMeasure(Func func) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-
     std::vector<int> arr(arrLength);
     for (int i = 0; i < arrLength; ++i) {
         arr[i] = i;
     }
 
+    std::random_device rd;
+    std::mt19937 gen(rd());
     std::shuffle(arr.begin(), arr.end(), gen);
 
     clock_t start = clock();
