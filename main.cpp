@@ -1,13 +1,14 @@
 #include <iostream>
 #include <fstream>
-#include "sorts.hpp"
+#include "sorts/sorts.hpp"
 
 constexpr int numOfFuncs = 12;
 typedef std::vector<int> (*func)(int len, std::vector<int> arr);
 
 int main() {
+    std::cout << "test" << '\n';
     std::ifstream fin;
-    std::ofstream fout("results.txt");
+    std::ofstream fout("../docs/results.txt");
     
     std::vector<std::string> func_names = {
             "Bubble sort",
@@ -42,7 +43,7 @@ int main() {
     double time = 0;
     for (int i = 0; i < numOfFuncs; ++i) {
         // TODO: time measurement.
-        fout << func_names[i] << ": " << time << '\n';
+        fout << func_names[i] << ": " << time << "ms" << '\n';
     }
 
     return 0;

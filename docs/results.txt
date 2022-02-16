@@ -1,0 +1,12 @@
+Bubble sort: 0ms
+Bubble sort Iverson 1: 0ms
+Bubble sort Iverson 1 & 2: 0ms
+Selection sort: 0ms
+Linear insertion sort: 0ms
+Binary insertion sort: 0ms
+Counting sort: 0ms
+Radix sort: 0ms
+Merge sort: 0ms
+Hoar sort: 0ms
+Lomuto sort: 0ms
+Heap sort: 0ms
