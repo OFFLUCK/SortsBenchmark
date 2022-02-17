@@ -5,7 +5,7 @@
 #include <ctime>
 #include "sorts/sorts.hpp"
 
-typedef std::pair<std::vector<int>, int64_t> (*Func)(size_t len, std::vector<int> arr);
+typedef std::pair<std::vector<int>, uint64_t> (*Func)(size_t len, std::vector<int> arr);
 
 constexpr int numOfFuncs = 12;
 constexpr int milis = 1000;
