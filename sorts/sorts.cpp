@@ -187,13 +187,13 @@ std::pair<std::vector<int>, uint64_t> mergeSort(size_t len, std::vector<int> arr
 }
 
 std::pair<std::vector<int>, uint64_t> hoarSort(size_t len, std::vector<int> arr) {
-    // TODO{Mike}
+    // TODO{Oleg}
     uint64_t steps = 0;
     return std::make_pair(arr, steps);
 }
 
 std::pair<std::vector<int>, uint64_t> lomutoSort(size_t len, std::vector<int> arr) {
-    // TODO{Mike}
+    // TODO{Oleg}
     uint64_t steps = 0;
     return std::make_pair(arr, steps);
 }
