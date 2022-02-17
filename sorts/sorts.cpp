@@ -186,9 +186,9 @@ std::pair<std::vector<int>, uint64_t> mergeSort(size_t len, std::vector<int> arr
     return std::make_pair(merge(first.size(), first, second.size(), second), steps);
 }
 
-int64_t partition(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
+int64_t hoarPartition(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
     ++(*steps);
-    int middle_elem = (*arr)[(left + right) / 2];
+    size_t middle_elem = (*arr)[(left + right) / 2];
     int64_t p1 = static_cast<int64_t>(left);
     int64_t p2 = static_cast<int64_t>(right);
     while (p1 <= p2) {
@@ -210,21 +210,45 @@ int64_t partition(std::vector<int> *arr, size_t left, size_t right, uint64_t *st
 
 void quickHoarSort(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
     if (left < right) {
-        int64_t part = partition(arr, left, right, steps);
+        int64_t part = hoarPartition(arr, left, right, steps);
         quickHoarSort(arr, left, part, steps);
         quickHoarSort(arr, part + 1, right, steps);
     }
 }
 
+// NOT TESTED!!!
 std::pair<std::vector<int>, uint64_t> hoarSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
     quickHoarSort(&arr, 0, len - 1, &steps);
     return std::make_pair(arr, steps);
 }
 
+int64_t lomutoPartition(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
+    ++(*steps);
+    int64_t last = (*arr)[right];
+    int64_t index = static_cast<int64_t>(left) - 1;
+    for (int64_t i = static_cast<int64_t>(left); i < right; ++i) {
+        ++(*steps);
+        if ((*arr)[i] <= last) {
+            std::swap((*arr)[++index], (*arr)[i]);
+        }
+    }
+    std::swap((*arr)[++index], (*arr)[right]);
+    return index;
+}
+
+void quickLomutoSort(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
+    if ((left < right) && (left > -1)) {
+        int64_t part = lomutoPartition(arr, left, right, steps);
+        quickLomutoSort(arr, left, part - 1, steps);
+        quickLomutoSort(arr, part + 1, right, steps);
+    }
+}
+
+// NOT TESTED!!!
 std::pair<std::vector<int>, uint64_t> lomutoSort(size_t len, std::vector<int> arr) {
-    // TODO{Oleg}
     uint64_t steps = 0;
+    quickLomutoSort(&arr, 0, len - 1, &steps);
     return std::make_pair(arr, steps);
 }
 
