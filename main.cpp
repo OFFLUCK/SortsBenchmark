@@ -12,19 +12,24 @@ constexpr int milis = 1000;
 constexpr int sortAttempts = 100;
 constexpr int arrLength = 1000;
 
-std::vector<int> random_array(arrLength);
-
-void initRandomArray() {
-    for (int i = 0; i < arrLength; ++i) {
-        random_array[i] = i;
+struct RandomArray {
+    std::vector<int> random_array;
+    RandomArray() {
+        random_array = std::vector<int>(arrLength);
     }
-}
 
-void updateRandomArray() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::shuffle(random_array.begin(), random_array.end(), gen);
-}
+    void initRandomArray() {
+        for (int i = 0; i < arrLength; ++i) {
+            random_array[i] = i;
+        }
+    }
+
+    void updateRandomArray() {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::shuffle(random_array.begin(), random_array.end(), gen);
+    }
+};
 
 void write_csv(std::string filename, std::vector<std::pair<std::string, std::vector<double>>> dataset) {
     std::ofstream myFile(filename);
@@ -52,9 +57,10 @@ void write_csv(std::string filename, std::vector<std::pair<std::string, std::vec
  * @return std::pair<double, uint64_t> <time, el operations>
  */
 std::pair<double, uint64_t> randomArrayMeasure(Func func) {
+    RandomArray *random_array = new RandomArray();
     std::vector<int> arr(arrLength);
     for (int i = 0; i < arrLength; ++i) {
-        arr[i] = random_array[i];
+        arr[i] = random_array->random_array[i];
     }
     clock_t start = clock();
     auto sortRes = func(arrLength, arr);
@@ -178,7 +184,7 @@ int main() {
             heapSort,
     };
     for (size_t j = 0; j < sortAttempts; j++) {
-        updateRandomArray();
+//        updateRandomArray();
         for (int i = 0; i < numOfFuncs; ++i) {
             // std::cout << "Measuring" << ' ' << func_names[i] << '\n';
             measure(funcs[i], i, fout);
