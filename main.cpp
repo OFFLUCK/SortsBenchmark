@@ -133,7 +133,7 @@ void saveResults() {
             {"SAME_EL_TIME",   const_el_test.first},
             {"SAME_EL_STEPS",  const_el_test.second},
     };
-    write_csv("../docs/res.csv", vals);
+    write_csv("../docs/results.csv", vals);
 }
 
 void printSeparator(std::ofstream &fout) {
