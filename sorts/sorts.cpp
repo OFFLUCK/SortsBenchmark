@@ -13,6 +13,7 @@ std::vector<int> bubbleSort(int len, std::vector<int> arr) {
 }
 
 std::vector<int> bubbleIversonOneSort(int len, std::vector<int> arr) {
+    // TODO{Mike}
     bool has_swaps;
 
     for (int ind = 0; ind < len; ++ind) {
@@ -32,7 +33,7 @@ std::vector<int> bubbleIversonOneSort(int len, std::vector<int> arr) {
 }
 
 std::vector<int> bubbleIversonOneAndTwoSort(int len, std::vector<int> arr) {
-    // TODO{Oleg}
+    // TODO{Mike}
     return arr;
 }
 
@@ -88,7 +89,7 @@ std::vector<int> binaryInsertionSort(int len, std::vector<int> arr) {
 }
 
 std::vector<int> countingSort(int len, std::vector<int> arr) {
-    // TODO{Mike}
+    // TODO{Oleg}
     return arr;
 }
 
