@@ -186,9 +186,39 @@ std::pair<std::vector<int>, uint64_t> mergeSort(size_t len, std::vector<int> arr
     return std::make_pair(merge(first.size(), first, second.size(), second), steps);
 }
 
+int64_t partition(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
+    ++(*steps);
+    int middle_elem = (*arr)[(left + right) / 2];
+    int64_t p1 = static_cast<int64_t>(left);
+    int64_t p2 = static_cast<int64_t>(right);
+    while (p1 <= p2) {
+        while ((*arr)[p1] < middle_elem) {
+            ++(*steps);
+            ++p1;
+        }
+        while ((*arr)[p2] > middle_elem) {
+            ++(*steps);
+            --p2;
+        }
+        if (p1 >= p2) {
+            break;
+        }
+        std::swap((*arr)[p1++], (*arr)[p2--]);
+    }
+    return p2;
+}
+
+void quickHoarSort(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
+    if (left < right) {
+        int64_t part = partition(arr, left, right, steps);
+        quickHoarSort(arr, left, part, steps);
+        quickHoarSort(arr, part + 1, right, steps);
+    }
+}
+
 std::pair<std::vector<int>, uint64_t> hoarSort(size_t len, std::vector<int> arr) {
-    // TODO{Oleg}
     uint64_t steps = 0;
+    quickHoarSort(&arr, 0, len - 1, &steps);
     return std::make_pair(arr, steps);
 }
 
