@@ -116,9 +116,42 @@ std::vector<int> radixSort(int len, std::vector<int> arr) {
     return arr;
 }
 
-std::vector<int> mergeSort(int len, std::vector<int> arr) {
-    // TODO{Oleg}
-    return arr;
+std::vector<int> merge(size_t len1, std::vector<int> arr1, size_t len2, std::vector<int> arr2) {
+    int point1 = 0;
+    int point2 = 0;
+    std::vector<int> ans(len1 + len2);
+    while ((point1 < len1) && (point2 < len2)) {
+        if (arr1[point1] < arr2[point2]) {
+            ans[point1 + point2] = arr1[point1];
+            ++point1;
+        } else {
+            ans[point1 + point2] = arr2[point2];
+            ++point2;
+        }
+    }
+    while (point1 < len1) {
+        ans[point1 + point2] = arr1[point1];
+        ++point1;
+    }
+    while (point2 < len2) {
+        ans[point1 + point2] = arr2[point2];
+        ++point2;
+    }
+    return ans;
+}
+
+std::vector<int> mergeSort(size_t len, std::vector<int> arr) {
+    if (len == 1) {
+        return arr;
+    }
+    std::vector<int>::const_iterator begin = arr.begin();
+    std::vector<int>::const_iterator middle = arr.begin() + len / 2;
+    std::vector<int>::const_iterator end = arr.end();
+    std::vector<int> first(begin, middle);
+    std::vector<int> second(middle, end);
+    first = mergeSort(first.size(), first);
+    second = mergeSort(second.size(), second);
+    return merge(first.size(), first, second.size(), second);
 }
 
 std::vector<int> hoarSort(int len, std::vector<int> arr) {
