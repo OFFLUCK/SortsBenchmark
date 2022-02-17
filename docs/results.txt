@@ -1,84 +1,84 @@
 Bubble sort benchmark:
-    1). Random array: 11.618ms
-    2). Sorted array: 3.793ms
-    3). Reverse sorted array: 12.015ms
-    4). Array with all same elements: 3.357ms
+    1). Random array: 8.478ms
+    2). Sorted array: 2.932ms
+    3). Reverse sorted array: 9.277ms
+    4). Array with all same elements: 2.841ms
 
 ----------------------------------------------------------------------------------------------------
 Bubble sort Iverson 1 benchmark:
-    1). Random array: 10.178ms
-    2). Sorted array: 0.023ms
-    3). Reverse sorted array: 11.607ms
-    4). Array with all same elements: 0.015ms
+    1). Random array: 7.657ms
+    2). Sorted array: 0.007ms
+    3). Reverse sorted array: 8.192ms
+    4). Array with all same elements: 0.007ms
 
 ----------------------------------------------------------------------------------------------------
 Bubble sort Iverson 1 & 2 benchmark:
-    1). Random array: 0.001ms
-    2). Sorted array: 0.001ms
-    3). Reverse sorted array: 0.002ms
-    4). Array with all same elements: 0.002ms
-
-----------------------------------------------------------------------------------------------------
-Selection sort benchmark:
-    1). Random array: 3.443ms
-    2). Sorted array: 3.312ms
-    3). Reverse sorted array: 3.344ms
-    4). Array with all same elements: 3.318ms
-
-----------------------------------------------------------------------------------------------------
-Linear insertion sort benchmark:
-    1). Random array: 5.511ms
-    2). Sorted array: 0.009ms
-    3). Reverse sorted array: 9.877ms
-    4). Array with all same elements: 0.011ms
-
-----------------------------------------------------------------------------------------------------
-Binary insertion sort benchmark:
-    1). Random array: 3.693ms
-    2). Sorted array: 0.062ms
-    3). Reverse sorted array: 7.347ms
-    4). Array with all same elements: 0.065ms
-
-----------------------------------------------------------------------------------------------------
-Counting sort benchmark:
-    1). Random array: 0.002ms
-    2). Sorted array: 0.002ms
-    3). Reverse sorted array: 0.002ms
-    4). Array with all same elements: 0.002ms
-
-----------------------------------------------------------------------------------------------------
-Radix sort benchmark:
-    1). Random array: 0.002ms
+    1). Random array: 0.003ms
     2). Sorted array: 0.002ms
     3). Reverse sorted array: 0.002ms
     4). Array with all same elements: 0.001ms
 
 ----------------------------------------------------------------------------------------------------
-Merge sort benchmark:
-    1). Random array: 0.021ms
-    2). Sorted array: 0.004ms
+Selection sort benchmark:
+    1). Random array: 2.347ms
+    2). Sorted array: 2.278ms
+    3). Reverse sorted array: 2.465ms
+    4). Array with all same elements: 2.334ms
+
+----------------------------------------------------------------------------------------------------
+Linear insertion sort benchmark:
+    1). Random array: 4.043ms
+    2). Sorted array: 0.011ms
+    3). Reverse sorted array: 8.129ms
+    4). Array with all same elements: 0.013ms
+
+----------------------------------------------------------------------------------------------------
+Binary insertion sort benchmark:
+    1). Random array: 3.527ms
+    2). Sorted array: 0.065ms
+    3). Reverse sorted array: 7.832ms
+    4). Array with all same elements: 0.101ms
+
+----------------------------------------------------------------------------------------------------
+Counting sort benchmark:
+    1). Random array: 0.045ms
+    2). Sorted array: 0.003ms
     3). Reverse sorted array: 0.002ms
-    4). Array with all same elements: 0.002ms
+    4). Array with all same elements: 0.005ms
+
+----------------------------------------------------------------------------------------------------
+Radix sort benchmark:
+    1). Random array: 1.511ms
+    2). Sorted array: 1.006ms
+    3). Reverse sorted array: 1.01ms
+    4). Array with all same elements: 0.907ms
+
+----------------------------------------------------------------------------------------------------
+Merge sort benchmark:
+    1). Random array: 1.603ms
+    2). Sorted array: 1.448ms
+    3). Reverse sorted array: 1.602ms
+    4). Array with all same elements: 1.54ms
 
 ----------------------------------------------------------------------------------------------------
 Hoar sort benchmark:
-    1). Random array: 0.002ms
-    2). Sorted array: 0.002ms
+    1). Random array: 0.005ms
+    2). Sorted array: 0.003ms
     3). Reverse sorted array: 0.002ms
     4). Array with all same elements: 0.002ms
 
 ----------------------------------------------------------------------------------------------------
 Lomuto sort benchmark:
-    1). Random array: 0.004ms
-    2). Sorted array: 0.004ms
+    1). Random array: 0.005ms
+    2). Sorted array: 0.003ms
     3). Reverse sorted array: 0.002ms
-    4). Array with all same elements: 0.006ms
+    4). Array with all same elements: 0.004ms
 
 ----------------------------------------------------------------------------------------------------
 Heap sort benchmark:
-    1). Random array: 0.406ms
-    2). Sorted array: 0.396ms
-    3). Reverse sorted array: 0.322ms
-    4). Array with all same elements: 0.048ms
+    1). Random array: 0.38ms
+    2). Sorted array: 0.341ms
+    3). Reverse sorted array: 0.315ms
+    4). Array with all same elements: 0.04ms
 
 ----------------------------------------------------------------------------------------------------

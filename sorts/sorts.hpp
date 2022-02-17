@@ -5,17 +5,17 @@
 #include <vector>
 #include <utility>
 
-std::vector<int> bubbleSort(int len, std::vector<int> arr);
-std::vector<int> bubbleIversonOneSort(int len, std::vector<int> arr);
-std::vector<int> bubbleIversonOneAndTwoSort(int len, std::vector<int> arr);
-std::vector<int> selectionSort(int len, std::vector<int> arr);
-std::vector<int> linearInsertionSort(int len, std::vector<int> arr);
-std::vector<int> binaryInsertionSort(int len, std::vector<int> arr);
-std::vector<int> countingSort(int len, std::vector<int> arr);
-std::vector<int> radixSort(int len, std::vector<int> arr);
-std::vector<int> mergeSort(int len, std::vector<int> arr);
-std::vector<int> hoarSort(int len, std::vector<int> arr);
-std::vector<int> lomutoSort(int len, std::vector<int> arr);
-std::vector<int> heapSort(int len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> bubbleSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> bubbleIversonOneSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> bubbleIversonOneAndTwoSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> selectionSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> linearInsertionSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> binaryInsertionSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> countingSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> radixSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> mergeSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> hoarSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> lomutoSort(size_t len, std::vector<int> arr);
+std::pair<std::vector<int>, int64_t> heapSort(size_t len, std::vector<int> arr);
 
 #endif
