@@ -32,7 +32,7 @@ std::vector<int> bubbleIversonOneSort(int len, std::vector<int> arr) {
 }
 
 std::vector<int> bubbleIversonOneAndTwoSort(int len, std::vector<int> arr) {
-    // TODO{}
+    // TODO{Oleg}
     return arr;
 }
 
@@ -88,27 +88,45 @@ std::vector<int> binaryInsertionSort(int len, std::vector<int> arr) {
 }
 
 std::vector<int> countingSort(int len, std::vector<int> arr) {
-    // TODO{}
+    // TODO{Mike}
     return arr;
 }
 
 std::vector<int> radixSort(int len, std::vector<int> arr) {
-    // TODO{}
+    int64_t two_power = 1;
+    std::vector<int> new_arr;
+
+    for (int index = 0; index < 31; ++index) {
+        new_arr.clear();
+        for (int i = 0; i < len; ++i) {
+            if ((arr[i] & two_power) == 0) {
+                new_arr.push_back(arr[i]);
+            }
+        }
+        for (int i = 0; i < len; ++i) {
+            if (arr[i] & two_power) {
+                new_arr.push_back(arr[i]);
+            }
+        }
+        arr = new_arr;
+        two_power *= 2;
+    }
+
     return arr;
 }
 
 std::vector<int> mergeSort(int len, std::vector<int> arr) {
-    // TODO{}
+    // TODO{Oleg}
     return arr;
 }
 
 std::vector<int> hoarSort(int len, std::vector<int> arr) {
-    // TODO{}
+    // TODO{Mike}
     return arr;
 }
 
 std::vector<int> lomutoSort(int len, std::vector<int> arr) {
-    // TODO{}
+    // TODO{Mike}
     return arr;
 }
 
