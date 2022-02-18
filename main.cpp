@@ -28,7 +28,38 @@ struct RandomArray {
     }
 };
 
-void write_csv(std::string filename, std::vector<std::pair<std::string, std::vector<double>>> dataset) {
+struct CSVSaver {
+    std::vector<std::string> func_names = {
+        "Bubble sort",
+        "Bubble sort Iverson 1",
+        "Bubble sort Iverson 1 & 2",
+        "Selection sort",
+        "Linear insertion sort",
+        "Binary insertion sort",
+        "Counting sort",
+        "Radix sort",
+        "Merge sort",
+        "Hoar sort",
+        "Lomuto sort",
+        "Heap sort",
+    };
+    std::vector<double> sort_name_vector;
+    std::pair<std::vector<double>, std::vector<double>> rnd_test;
+    std::pair<std::vector<double>, std::vector<double>> sorted_test;
+    std::pair<std::vector<double>, std::vector<double>> reversed_test;
+    std::pair<std::vector<double>, std::vector<double>> const_el_test;
+    void write_csv(std::string filename) {
+        std::vector<std::pair<std::string, std::vector<double>>> dataset = {
+            {"sort_name",      sort_name_vector},
+            {"random_time",       rnd_test.first},
+            {"random_steps",      rnd_test.second},
+            {"sorted_time",    sorted_test.first},
+            {"sorted_steps",   sorted_test.second},
+            {"reversed_time",  reversed_test.first},
+            {"reversed_steps", reversed_test.second},
+            {"same_el_time",   const_el_test.first},
+            {"same_el_steps",  const_el_test.second},
+    };
     std::ofstream myFile(filename);
     for (int j = 0; j < dataset.size(); ++j) {
         myFile << dataset.at(j).first;
@@ -38,7 +69,11 @@ void write_csv(std::string filename, std::vector<std::pair<std::string, std::vec
     myFile << "\n";
     for (int i = 0; i < dataset.at(0).second.size(); ++i) {
         for (int j = 0; j < dataset.size(); ++j) {
-            myFile << dataset.at(j).second.at(i);
+            if (j == 0) {
+                myFile << func_names[dataset.at(j).second.at(i)];
+            } else {
+                myFile << dataset.at(j).second.at(i);
+            }
             if (j != dataset.size() - 1)
                 myFile << ";";
         }
@@ -46,6 +81,7 @@ void write_csv(std::string filename, std::vector<std::pair<std::string, std::vec
     }
     myFile.close();
 }
+};
 
 /**
  * @brief Тест на ранд. наборе
@@ -57,9 +93,7 @@ std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_ar
     std::vector<int> arr(arrLength);
     for (int i = 0; i < arrLength; ++i) {
         arr[i] = random_array[i];
-        std::cout << arr[i] << ' ';
     }
-    std::cout << '\n';
     clock_t start = clock();
     auto sortRes = func(arrLength, arr);
     clock_t end = clock();
@@ -103,42 +137,23 @@ std::pair<double, uint64_t> allElementsAreSameArrayMeasure(Func func) {
     return std::make_pair(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC, sortRes.second);
 }
 
-std::vector<double> sort_name_vector;
-std::pair<std::vector<double>, std::vector<double>> rnd_test;
-std::pair<std::vector<double>, std::vector<double>> sorted_test;
-std::pair<std::vector<double>, std::vector<double>> reversed_test;
-std::pair<std::vector<double>, std::vector<double>> const_el_test;
 
-void measure(std::vector<int>* current_random_array, Func func, int func_ind, std::ofstream &fout) {
-    sort_name_vector.push_back(func_ind);
+void measure(CSVSaver* scv_saver, std::vector<int>* current_random_array, Func func, int func_ind, std::ofstream &fout) {
+    scv_saver->sort_name_vector.push_back(func_ind);
     auto res = randomArrayMeasure(*current_random_array, func);
-    rnd_test.first.push_back(res.first);
-    rnd_test.second.push_back(res.second);
+    scv_saver->rnd_test.first.push_back(res.first);
+    scv_saver->rnd_test.second.push_back(res.second);
     auto res2 = sortedArrayMeasure(func);
-    sorted_test.first.push_back(res2.first);
-    sorted_test.second.push_back(res2.second);
+    scv_saver->sorted_test.first.push_back(res2.first);
+    scv_saver->sorted_test.second.push_back(res2.second);
     auto res3 = reverseSortedArrayMeasure(func);
-    reversed_test.first.push_back(res3.first);
-    reversed_test.second.push_back(res3.second);
+    scv_saver->reversed_test.first.push_back(res3.first);
+    scv_saver->reversed_test.second.push_back(res3.second);
     auto res4 = allElementsAreSameArrayMeasure(func);
-    const_el_test.first.push_back(res4.first);
-    const_el_test.second.push_back(res4.second);
+    scv_saver->const_el_test.first.push_back(res4.first);
+    scv_saver->const_el_test.second.push_back(res4.second);
 }
 
-void saveResults() {
-    std::vector<std::pair<std::string, std::vector<double>>> vals = {
-            {"SORT_NAME",      sort_name_vector},
-            {"RND_TIME",       rnd_test.first},
-            {"RND_STEPS",      rnd_test.second},
-            {"SORTED_TIME",    sorted_test.first},
-            {"SORTED_STEPS",   sorted_test.second},
-            {"REVERSED_TIME",  reversed_test.first},
-            {"REVERSED_STEPS", reversed_test.second},
-            {"SAME_EL_TIME",   const_el_test.first},
-            {"SAME_EL_STEPS",  const_el_test.second},
-    };
-    write_csv("../docs/results.csv", vals);
-}
 
 void printSeparator(std::ofstream &fout) {
     fout << '\n';
@@ -152,20 +167,6 @@ int main() {
     std::cout << "Start" << '\n';
     std::ofstream fout("../docs/results.txt");
 
-    // std::vector<std::string> func_names = {
-    //     "Bubble sort",
-    //     "Bubble sort Iverson 1",
-    //     "Bubble sort Iverson 1 & 2",
-    //     "Selection sort",
-    //     "Linear insertion sort",
-    //     "Binary insertion sort",
-    //     "Counting sort",
-    //     "Radix sort",
-    //     "Merge sort",
-    //     "Hoar sort",
-    //     "Lomuto sort",
-    //     "Heap sort",
-    // };
 
     std::vector<Func> funcs = {
             bubbleSort,
@@ -182,16 +183,16 @@ int main() {
             heapSort,
     };
     auto random_array = new RandomArray();
+    auto csv_saver = new CSVSaver();
     for (size_t j = 0; j < sortAttempts; j++) {
        random_array->updateRandomArray();
         for (int i = 0; i < numOfFuncs; ++i) {
-            measure(&(random_array->random_array), funcs[i], i, fout);
+            measure(csv_saver, &(random_array->random_array), funcs[i], i, fout);
             printSeparator(fout);
         }
     }
 
-    saveResults();
+    csv_saver->write_csv("../docs/results.csv");
     std::cout << "End" << '\n';
-    delete random_array;
     return 0;
 }
