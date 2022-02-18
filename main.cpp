@@ -16,9 +16,6 @@ struct RandomArray {
     std::vector<int> random_array;
     RandomArray() {
         random_array = std::vector<int>(arrLength);
-    }
-
-    void initRandomArray() {
         for (int i = 0; i < arrLength; ++i) {
             random_array[i] = i;
         }
@@ -56,12 +53,13 @@ void write_csv(std::string filename, std::vector<std::pair<std::string, std::vec
  * @param func
  * @return std::pair<double, uint64_t> <time, el operations>
  */
-std::pair<double, uint64_t> randomArrayMeasure(Func func) {
-    RandomArray *random_array = new RandomArray();
+std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_array, Func func) {
     std::vector<int> arr(arrLength);
     for (int i = 0; i < arrLength; ++i) {
-        arr[i] = random_array->random_array[i];
+        arr[i] = random_array[i];
+        std::cout << arr[i] << ' ';
     }
+    std::cout << '\n';
     clock_t start = clock();
     auto sortRes = func(arrLength, arr);
     clock_t end = clock();
@@ -111,9 +109,9 @@ std::pair<std::vector<double>, std::vector<double>> sorted_test;
 std::pair<std::vector<double>, std::vector<double>> reversed_test;
 std::pair<std::vector<double>, std::vector<double>> const_el_test;
 
-void measure(Func func, int func_ind, std::ofstream &fout) {
+void measure(std::vector<int>* current_random_array, Func func, int func_ind, std::ofstream &fout) {
     sort_name_vector.push_back(func_ind);
-    auto res = randomArrayMeasure(func);
+    auto res = randomArrayMeasure(*current_random_array, func);
     rnd_test.first.push_back(res.first);
     rnd_test.second.push_back(res.second);
     auto res2 = sortedArrayMeasure(func);
@@ -183,16 +181,17 @@ int main() {
             lomutoSort,
             heapSort,
     };
+    auto random_array = new RandomArray();
     for (size_t j = 0; j < sortAttempts; j++) {
-//        updateRandomArray();
+       random_array->updateRandomArray();
         for (int i = 0; i < numOfFuncs; ++i) {
-            // std::cout << "Measuring" << ' ' << func_names[i] << '\n';
-            measure(funcs[i], i, fout);
+            measure(&(random_array->random_array), funcs[i], i, fout);
             printSeparator(fout);
         }
     }
 
     saveResults();
     std::cout << "End" << '\n';
+    delete random_array;
     return 0;
 }
