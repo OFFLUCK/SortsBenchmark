@@ -29,6 +29,6 @@ std::pair<std::vector<uint16_t>, uint64_t> lomutoSort(size_t len, std::vector<ui
 
 std::pair<std::vector<uint16_t>, uint64_t> heapSort(size_t len, std::vector<uint16_t> arr);
 
-bool isSorted(size_t len, std::vector<uint32_t> const &arr);
+bool isSorted(std::vector<uint16_t> const &arr);
 
 #endif
