@@ -3,8 +3,8 @@
 std::pair<std::vector<uint16_t>, uint64_t> bubbleSort(size_t len, std::vector<uint16_t> arr) {
     uint64_t steps = 0;
 
-    for (int ind = 0; ind < len; ++ind) {
-        for (int j = 0; j < len - ind - 1; ++j) {
+    for (size_t ind = 0; ind < len; ++ind) {
+        for (size_t j = 0; j < len - ind - 1; ++j) {
             ++steps;
             if (arr[j] > arr[j + 1]) {
                 std::swap(arr[j], arr[j + 1]);
@@ -20,10 +20,10 @@ std::pair<std::vector<uint16_t>, uint64_t> bubbleIversonOneSort(size_t len, std:
     uint64_t steps = 0;
     bool has_swaps;
 
-    for (int ind = 0; ind < len; ++ind) {
+    for (size_t ind = 0; ind < len; ++ind) {
         has_swaps = false;
 
-        for (int j = 0; j < len - ind - 1; ++j) {
+        for (size_t j = 0; j < len - ind - 1; ++j) {
             ++steps;
             if (arr[j] > arr[j + 1]) {
                 has_swaps = true;
@@ -46,12 +46,12 @@ std::pair<std::vector<uint16_t>, uint64_t> bubbleIversonOneAndTwoSort(size_t len
 }
 
 std::pair<std::vector<uint16_t>, uint64_t> selectionSort(size_t len, std::vector<uint16_t> arr) {
-    int min_ind;
+    size_t min_ind;
     uint64_t steps = 0;
 
-    for (int i = 0; i < len - 1; ++i) {
+    for (size_t i = 0; i < len - 1; ++i) {
         min_ind = i;
-        for (int j = i + 1; j < len; ++j) {
+        for (size_t j = i + 1; j < len; ++j) {
             ++steps;
             if (arr[j] < arr[min_ind]) {
                 min_ind = j;
@@ -66,8 +66,8 @@ std::pair<std::vector<uint16_t>, uint64_t> selectionSort(size_t len, std::vector
 std::pair<std::vector<uint16_t>, uint64_t> linearInsertionSort(size_t len, std::vector<uint16_t> arr) {
     uint64_t steps = 0;
 
-    for (int i = 1; i < len; ++i) {
-        int j = i - 1;
+    for (size_t i = 1; i < len; ++i) {
+        size_t j = i - 1;
         while ((j > -1) && (arr[j] > arr[j + 1])) {
             ++steps;
             std::swap(arr[j], arr[j + 1]);
@@ -80,11 +80,11 @@ std::pair<std::vector<uint16_t>, uint64_t> linearInsertionSort(size_t len, std::
 
 std::pair<std::vector<uint16_t>, uint64_t> binaryInsertionSort(size_t len, std::vector<uint16_t> arr) {
     uint64_t steps = 0;
-    int left;
-    int right;
-    int middle;
+    size_t left;
+    size_t right;
+    size_t middle;
 
-    for (int ind = 1; ind < len; ++ind) {
+    for (size_t ind = 1; ind < len; ++ind) {
         left = 0;
         right = ind - 1;
 
@@ -98,7 +98,7 @@ std::pair<std::vector<uint16_t>, uint64_t> binaryInsertionSort(size_t len, std::
             }
         }
 
-        for (int j = ind; j > left; --j) {
+        for (size_t j = ind; j > left; --j) {
             ++steps;
             std::swap(arr[j - 1], arr[j]);
         }
@@ -118,15 +118,15 @@ std::pair<std::vector<uint16_t>, uint64_t> radixSort(size_t len, std::vector<uin
     uint64_t two_power = 1;
     std::vector<uint16_t> new_arr;
 
-    for (int index = 0; index < 31; ++index) {
+    for (size_t index = 0; index < 31; ++index) {
         new_arr.clear();
-        for (int i = 0; i < len; ++i) {
+        for (size_t i = 0; i < len; ++i) {
             ++steps;
             if ((arr[i] & two_power) == 0) {
                 new_arr.push_back(arr[i]);
             }
         }
-        for (int i = 0; i < len; ++i) {
+        for (size_t i = 0; i < len; ++i) {
             ++steps;
             if (arr[i] & two_power) {
                 new_arr.push_back(arr[i]);
