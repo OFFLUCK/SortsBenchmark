@@ -146,7 +146,7 @@ std::pair<double, uint64_t> sortedArrayMeasure(Func func)
     clock_t start = clock();
     auto sortRes = func(arrLength, arr);
     clock_t end = clock();
-
+    testIsSorted(sortRes.first);
     return std::make_pair(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC, sortRes.second);
 }
 
@@ -161,7 +161,7 @@ std::pair<double, uint64_t> reverseSortedArrayMeasure(Func func)
     clock_t start = clock();
     auto sortRes = func(arrLength, arr);
     clock_t end = clock();
-
+    testIsSorted(sortRes.first);
     return std::make_pair(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC, sortRes.second);
 }
 
@@ -172,7 +172,7 @@ std::pair<double, uint64_t> allElementsAreSameArrayMeasure(Func func)
     clock_t start = clock();
     auto sortRes = func(arrLength, arr);
     clock_t end = clock();
-
+    testIsSorted(sortRes.first);
     return std::make_pair(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC, sortRes.second);
 }
 
