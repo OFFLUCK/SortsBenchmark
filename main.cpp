@@ -168,9 +168,9 @@ void initNotFullySortedArray(std::vector<uint16_t> *arr)
     for (int i = 0; i < arr->size(); ++i)
     {
         (*arr)[i] = i;
-        if (distr(gen) == 2)
+        if (i > 3 && distr(gen) == 2)
         {
-            (*arr)[i] = i - 1;
+            (*arr)[i] = i - 2;
         }
     }
 }
