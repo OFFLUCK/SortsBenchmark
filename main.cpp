@@ -83,7 +83,7 @@ struct CSVSaver
     std::pair<std::vector<double>, std::vector<double>> rnd_test_big;
     std::pair<std::vector<double>, std::vector<double>> sorted_test;
     std::pair<std::vector<double>, std::vector<double>> reversed_test;
-
+    std::vector<double> testing_arr_len;
     void write_csv(std::string filename)
     {
         std::vector<std::pair<std::string, std::vector<double>>> dataset = {
@@ -96,7 +96,7 @@ struct CSVSaver
             {"sorted_steps", sorted_test.second},
             {"reversed_time", reversed_test.first},
             {"reversed_steps", reversed_test.second},
-        };
+            {"arr_len", testing_arr_len}};
         std::ofstream myFile(filename);
         for (int j = 0; j < dataset.size(); ++j)
         {
@@ -245,7 +245,7 @@ struct CheckSortsWorker
     }
     void startMeasure()
     {
-        for (size_t j = initialLen; j < upperBound; j += step)
+        for (size_t j = initialLen; j <= upperBound; j += step)
         {
             small_random_array->update();
             big_random_array->update();
@@ -263,7 +263,13 @@ struct CheckSortsWorker
     }
     void measure(Func func, int func_ind)
     {
+        if (small_random_array->arr.size() != big_random_array->arr.size() || big_random_array->arr.size() != reversed_array->arr.size() || big_random_array->arr.size() != not_full_sorted_array->arr.size())
+        {
+            std::cout << "err";
+            return;
+        }
         csv_saver->sort_name_vector.push_back(func_ind);
+        csv_saver->testing_arr_len.push_back(small_random_array->arr.size());
         auto res = randomArrayMeasure(small_random_array->arr, func, func_ind);
         csv_saver->rnd_test_small.first.push_back(res.first);
         csv_saver->rnd_test_small.second.push_back(res.second);
