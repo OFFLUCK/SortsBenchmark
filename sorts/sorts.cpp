@@ -1,6 +1,6 @@
 #include "sorts.hpp"
 
-std::pair<std::vector<uint16_t>, uint64_t> bubbleSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> bubbleSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
 
     for (size_t ind = 0; ind < len; ++ind) {
@@ -15,7 +15,7 @@ std::pair<std::vector<uint16_t>, uint64_t> bubbleSort(size_t len, std::vector<ui
     return std::make_pair(arr, steps);
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> bubbleIversonOneSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> bubbleIversonOneSort(size_t len, std::vector<int> arr) {
     // TODO{Mike}
     uint64_t steps = 0;
     bool has_swaps;
@@ -39,14 +39,14 @@ std::pair<std::vector<uint16_t>, uint64_t> bubbleIversonOneSort(size_t len, std:
     return std::make_pair(arr, steps);
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> bubbleIversonOneAndTwoSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> bubbleIversonOneAndTwoSort(size_t len, std::vector<int> arr) {
     // TODO{@OFFLUCK}
     uint64_t steps = 0;
     isSorted(arr);
     return std::make_pair(arr, steps);
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> selectionSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> selectionSort(size_t len, std::vector<int> arr) {
     size_t min_ind;
     uint64_t steps = 0;
 
@@ -64,7 +64,7 @@ std::pair<std::vector<uint16_t>, uint64_t> selectionSort(size_t len, std::vector
     return std::make_pair(arr, steps);
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> linearInsertionSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> linearInsertionSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
 
     for (size_t i = 1; i < len; ++i) {
@@ -79,7 +79,7 @@ std::pair<std::vector<uint16_t>, uint64_t> linearInsertionSort(size_t len, std::
     return std::make_pair(arr, steps);
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> binaryInsertionSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> binaryInsertionSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
     size_t left;
     size_t right;
@@ -108,17 +108,17 @@ std::pair<std::vector<uint16_t>, uint64_t> binaryInsertionSort(size_t len, std::
     return std::make_pair(arr, steps);
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> countingSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> countingSort(size_t len, std::vector<int> arr) {
     // TODO{@OFFLUCK}
     uint64_t steps = 0;
     isSorted(arr);
     return std::make_pair(arr, steps);
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> radixSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> radixSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
     uint64_t two_power = 1;
-    std::vector<uint16_t> new_arr;
+    std::vector<int> new_arr;
 
     for (size_t index = 0; index < 31; ++index) {
         new_arr.clear();
@@ -141,10 +141,10 @@ std::pair<std::vector<uint16_t>, uint64_t> radixSort(size_t len, std::vector<uin
     return std::make_pair(arr, steps);
 }
 
-std::vector<uint16_t> merge(size_t len1, std::vector<uint16_t> arr1, size_t len2, std::vector<uint16_t> arr2) {
+std::vector<int> merge(size_t len1, std::vector<int> arr1, size_t len2, std::vector<int> arr2) {
     size_t point1 = 0;
     size_t point2 = 0;
-    std::vector<uint16_t> ans(len1 + len2);
+    std::vector<int> ans(len1 + len2);
     while ((point1 < len1) && (point2 < len2)) {
         if (arr1[point1] < arr2[point2]) {
             ans[point1 + point2] = arr1[point1];
@@ -165,7 +165,7 @@ std::vector<uint16_t> merge(size_t len1, std::vector<uint16_t> arr1, size_t len2
     return ans;
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> mergeSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> mergeSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
 
     if (len == 1) {
@@ -173,14 +173,14 @@ std::pair<std::vector<uint16_t>, uint64_t> mergeSort(size_t len, std::vector<uin
         return std::make_pair(arr, 1);
     }
 
-    std::vector<uint16_t>::const_iterator begin = arr.begin();
-    std::vector<uint16_t>::const_iterator middle = arr.begin() + static_cast<uint16_t>(len) / 2;
-    std::vector<uint16_t>::const_iterator end = arr.end();
-    std::vector<uint16_t> first(begin, middle);
-    std::vector<uint16_t> second(middle, end);
+    std::vector<int>::const_iterator begin = arr.begin();
+    std::vector<int>::const_iterator middle = arr.begin() + static_cast<int>(len) / 2;
+    std::vector<int>::const_iterator end = arr.end();
+    std::vector<int> first(begin, middle);
+    std::vector<int> second(middle, end);
 
-    std::pair<std::vector<uint16_t>, uint64_t> first_ans = mergeSort(first.size(), first);
-    std::pair<std::vector<uint16_t>, uint64_t> second_ans = mergeSort(first.size(), first);
+    std::pair<std::vector<int>, uint64_t> first_ans = mergeSort(first.size(), first);
+    std::pair<std::vector<int>, uint64_t> second_ans = mergeSort(first.size(), first);
 
     first = first_ans.first;
     second = second_ans.first;
@@ -189,7 +189,7 @@ std::pair<std::vector<uint16_t>, uint64_t> mergeSort(size_t len, std::vector<uin
     return std::make_pair(merge(first.size(), first, second.size(), second), steps);
 }
 
-int64_t hoarPartition(std::vector<uint16_t> *arr, size_t left, size_t right, uint64_t *steps) {
+int64_t hoarPartition(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
     ++(*steps);
     size_t middle_elem = (*arr)[(left + right) / 2];
     int64_t p1 = static_cast<int64_t>(left);
@@ -211,7 +211,7 @@ int64_t hoarPartition(std::vector<uint16_t> *arr, size_t left, size_t right, uin
     return p2;
 }
 
-void quickHoarSort(std::vector<uint16_t> *arr, size_t left, size_t right, uint64_t *steps) {
+void quickHoarSort(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
     if (left < right) {
         int64_t part = hoarPartition(arr, left, right, steps);
         quickHoarSort(arr, left, part, steps);
@@ -220,14 +220,14 @@ void quickHoarSort(std::vector<uint16_t> *arr, size_t left, size_t right, uint64
 }
 
 // NOT TESTED!!!
-std::pair<std::vector<uint16_t>, uint64_t> hoarSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> hoarSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
     quickHoarSort(&arr, 0, len - 1, &steps);
     isSorted(arr);
     return std::make_pair(arr, steps);
 }
 
-int64_t lomutoPartition(std::vector<uint16_t> *arr, size_t left, size_t right, uint64_t *steps) {
+int64_t lomutoPartition(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
     ++(*steps);
     int64_t last = (*arr)[right];
     int64_t index = static_cast<int64_t>(left) - 1;
@@ -241,7 +241,7 @@ int64_t lomutoPartition(std::vector<uint16_t> *arr, size_t left, size_t right, u
     return index;
 }
 
-void quickLomutoSort(std::vector<uint16_t> *arr, size_t left, size_t right, uint64_t *steps) {
+void quickLomutoSort(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
     if ((left < right) && (left > -1)) {
         int64_t part = lomutoPartition(arr, left, right, steps);
         quickLomutoSort(arr, left, part - 1, steps);
@@ -250,14 +250,14 @@ void quickLomutoSort(std::vector<uint16_t> *arr, size_t left, size_t right, uint
 }
 
 // NOT TESTED!!!
-std::pair<std::vector<uint16_t>, uint64_t> lomutoSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> lomutoSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
     quickLomutoSort(&arr, 0, len - 1, &steps);
     isSorted(arr);
     return std::make_pair(arr, steps);
 }
 
-void heapBuild(size_t len, size_t ind, std::vector<uint16_t> *arr) {
+void heapBuild(size_t len, size_t ind, std::vector<int> *arr) {
     size_t big_elem = ind;
     size_t left = 2 * big_elem + 1;
     size_t right = 2 * big_elem + 2;
@@ -276,7 +276,7 @@ void heapBuild(size_t len, size_t ind, std::vector<uint16_t> *arr) {
     }
 }
 
-std::pair<std::vector<uint16_t>, uint64_t> heapSort(size_t len, std::vector<uint16_t> arr) {
+std::pair<std::vector<int>, uint64_t> heapSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
 
     for (size_t i = len / 2 - 1; i > -1; --i) {
@@ -291,7 +291,7 @@ std::pair<std::vector<uint16_t>, uint64_t> heapSort(size_t len, std::vector<uint
     return std::make_pair(arr, steps);
 }
 
-bool isSorted(std::vector<uint16_t> const &arr) {
+bool isSorted(std::vector<int> const &arr) {
     for (size_t i = 1; i < arr.size(); ++i) {
         if (arr[i - 1] > arr[i]) {
             std:: cout << arr[i - 1] << ' ' << arr[i] << '\n';

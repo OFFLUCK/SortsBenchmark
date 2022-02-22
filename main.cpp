@@ -5,8 +5,8 @@
 #include <ctime>
 #include "sorts/sorts.hpp"
 
-typedef std::pair<std::vector<uint16_t>, uint64_t> (*Func)(size_t len, std::vector<uint16_t> arr);
-typedef void (*UpdateFunc)(std::vector<uint16_t> *arr);
+typedef std::pair<std::vector<int>, uint64_t> (*Func)(size_t len, std::vector<int> arr);
+typedef void (*UpdateFunc)(std::vector<int> *arr);
 
 constexpr int numOfFuncs = 12;
 constexpr int milis = 1000;
@@ -32,7 +32,7 @@ const std::vector<std::string> func_names = {
  *
  * @param testing_arr
  */
-void testIsSorted(std::vector<uint16_t> const &testing_arr, int func_index)
+void testIsSorted(std::vector<int> const &testing_arr, int func_index)
 {
     bool is_sorted = isSorted(testing_arr);
     if (!is_sorted)
@@ -49,7 +49,7 @@ void testIsSorted(std::vector<uint16_t> const &testing_arr, int func_index)
 template <typename Action>
 struct TestDataset
 {
-    std::vector<uint16_t> arr;
+    std::vector<int> arr;
     Action update_action;
     Action init_action;
     int resize_step;
@@ -58,7 +58,7 @@ struct TestDataset
         this->resize_step = resize_step;
         this->update_action = update_action;
         this->init_action = init_action;
-        arr = std::vector<uint16_t>(init_len);
+        arr = std::vector<int>(init_len);
         init_action(&arr);
     }
 
@@ -132,9 +132,9 @@ struct CSVSaver
  * @param func
  * @return std::pair<double, uint64_t> <time, el operations>
  */
-std::pair<double, uint64_t> randomArrayMeasure(std::vector<uint16_t> const &random_array, Func func, int func_index)
+std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_array, Func func, int func_index)
 {
-    std::vector<uint16_t> arr(random_array.size());
+    std::vector<int> arr(random_array.size());
     for (int i = 0; i < random_array.size(); ++i)
     {
         arr[i] = random_array[i];
@@ -147,20 +147,20 @@ std::pair<double, uint64_t> randomArrayMeasure(std::vector<uint16_t> const &rand
     return std::make_pair(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC, sortRes.second);
 }
 
-void updateRandomArray(std::vector<uint16_t> *arr)
+void updateRandomArray(std::vector<int> *arr)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::shuffle(arr->begin(), arr->end(), gen);
 }
-void initReversedArray(std::vector<uint16_t> *arr)
+void initReversedArray(std::vector<int> *arr)
 {
     for (int i = 0; i < arr->size(); ++i)
     {
         (*arr)[i] = arr->size() - i;
     }
 }
-void initNotFullySortedArray(std::vector<uint16_t> *arr)
+void initNotFullySortedArray(std::vector<int> *arr)
 {
     std::random_device rd;                       // obtain a random number from hardware
     std::mt19937 gen(rd());                      // seed the generator
@@ -174,16 +174,16 @@ void initNotFullySortedArray(std::vector<uint16_t> *arr)
         }
     }
 }
-void updateNotFullySortedArray(std::vector<uint16_t> *arr)
+void updateNotFullySortedArray(std::vector<int> *arr)
 {
     initNotFullySortedArray(arr);
 }
-void updateReversedArray(std::vector<uint16_t> *arr)
+void updateReversedArray(std::vector<int> *arr)
 {
     initReversedArray(arr);
 }
 
-void initSmallRandomArray(std::vector<uint16_t> *arr)
+void initSmallRandomArray(std::vector<int> *arr)
 {
     std::random_device rd;                       // obtain a random number from hardware
     std::mt19937 gen(rd());                      // seed the generator
@@ -194,7 +194,7 @@ void initSmallRandomArray(std::vector<uint16_t> *arr)
         (*arr)[i] = distr(gen);
     }
 }
-void initBigRandomArray(std::vector<uint16_t> *arr)
+void initBigRandomArray(std::vector<int> *arr)
 {
     std::random_device rd;                          // obtain a random number from hardware
     std::mt19937 gen(rd());                         // seed the generator
@@ -282,7 +282,7 @@ struct CheckSortsWorker
 
     void reverseSortedArrayMeasure(Func func, int func_ind)
     {
-        std::vector<uint16_t> arr(this->reversed_array->arr.size());
+        std::vector<int> arr(this->reversed_array->arr.size());
         for (int i = 0; i < this->reversed_array->arr.size(); ++i)
         {
             arr[i] = this->reversed_array->arr[i];
@@ -297,7 +297,7 @@ struct CheckSortsWorker
     }
     void sortedArrayMeasure(Func func, int func_index)
     {
-        std::vector<uint16_t> arr(this->not_full_sorted_array->arr.size());
+        std::vector<int> arr(this->not_full_sorted_array->arr.size());
         for (int i = 0; i < this->not_full_sorted_array->arr.size(); ++i)
         {
             arr[i] = this->not_full_sorted_array->arr[i];
