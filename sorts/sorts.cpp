@@ -239,11 +239,11 @@ std::pair<std::vector<int>, uint64_t> hoarSort(size_t len, std::vector<int> arr)
     return std::make_pair(arr, steps);
 }
 
-int64_t lomutoPartition(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
+int lomutoPartition(std::vector<int> *arr, int left, int right, uint64_t *steps) {
     ++(*steps);
-    int64_t last = (*arr)[right];
-    int64_t index = static_cast<int64_t>(left) - 1;
-    for (auto i = static_cast<int64_t>(left); i < right; ++i) {
+    int last = (*arr)[right];
+    int index = left - 1;
+    for (int i = left; i < right; ++i) {
         ++(*steps);
         if ((*arr)[i] <= last) {
             std::swap((*arr)[++index], (*arr)[i]);
@@ -253,9 +253,9 @@ int64_t lomutoPartition(std::vector<int> *arr, size_t left, size_t right, uint64
     return index;
 }
 
-void quickLomutoSort(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
+void quickLomutoSort(std::vector<int> *arr, int left, int right, uint64_t *steps) {
     if ((left < right) && (left > -1)) {
-        int64_t part = lomutoPartition(arr, left, right, steps);
+        int part = lomutoPartition(arr, left, right, steps);
         quickLomutoSort(arr, left, part - 1, steps);
         quickLomutoSort(arr, part + 1, right, steps);
     }
@@ -308,7 +308,7 @@ std::pair<std::vector<int>, uint64_t> heapSort(size_t len, std::vector<int> arr)
 bool isSorted(std::vector<int> const &arr) {
     for (size_t i = 1; i < arr.size(); ++i) {
         if (arr[i - 1] > arr[i]) {
-            //std::cout << arr[i - 1] << ' ' << arr[i] << '\n';
+            // std::cout << arr[i - 1] << ' ' << arr[i] << '\n';
             return false;
         }
     }

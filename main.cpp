@@ -306,7 +306,7 @@ int main() {
 //    case2->startMeasure();
 //    case2->saveCSV();
 //    std::cout << "End" << '\n';
-    std::vector<int> arr(10, 0);
+    std::vector<int> arr(1000, 0);
     for (int i = 0; i < arr.size(); ++i) {
         arr[i] = i;
     }
