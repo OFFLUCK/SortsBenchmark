@@ -6,6 +6,7 @@
 #include "sorts/sorts.hpp"
 
 typedef std::pair<std::vector<int>, uint64_t> (*Func)(size_t len, std::vector<int> arr);
+
 typedef void (*UpdateFunc)(std::vector<int> *arr);
 
 constexpr int numOfFuncs = 12;
@@ -13,18 +14,32 @@ constexpr int milis = 1000;
 constexpr int sortAttempts = 100;
 constexpr int arrLength = 1000;
 const std::vector<std::string> func_names = {
-    "BubbleSort",
-    "BubbleSortIverson1",
-    "BubbleSortIverson1&2",
-    "SelectionSort",
-    "LinearInsertionSort",
-    "BinaryInsertionSort",
-    "CountingSort",
-    "RadixSort",
-    "MergeSort",
-    "HoarSort",
-    "LomutoSort",
-    "HeapSort",
+        "BubbleSort",
+        "BubbleSortIverson1",
+        "BubbleSortIverson1&2",
+        "SelectionSort",
+        "LinearInsertionSort",
+        "BinaryInsertionSort",
+        "CountingSort",
+        "RadixSort",
+        "MergeSort",
+        "HoarSort",
+        "LomutoSort",
+        "HeapSort",
+};
+const std::vector<Func> funcs = {
+        bubbleSort,
+        bubbleIversonOneSort,
+        bubbleIversonOneAndTwoSort,
+        selectionSort,
+        linearInsertionSort,
+        binaryInsertionSort,
+        countingSort,
+        radixSort,
+        mergeSort,
+        hoarSort,
+        lomutoSort,
+        heapSort,
 };
 
 /**
@@ -32,29 +47,24 @@ const std::vector<std::string> func_names = {
  *
  * @param testing_arr
  */
-void testIsSorted(std::vector<int> const &testing_arr, int func_index)
-{
+void testIsSorted(std::vector<int> const &testing_arr, int func_index) {
     bool is_sorted = isSorted(testing_arr);
-    if (!is_sorted)
-    {
+    if (!is_sorted) {
         std::cout << func_names[func_index] << " testIsSorted [-]\n";
         return;
-    }
-    else
-    {
+    } else {
         std::cout << func_names[func_index] << " testIsSorted [+]\n";
     }
 }
 
-template <typename Action>
-struct TestDataset
-{
+template<typename Action>
+struct TestDataset {
     std::vector<int> arr;
     Action update_action;
     Action init_action;
     int resize_step;
-    TestDataset(int init_len, int resize_step, Action update_action, Action init_action)
-    {
+
+    TestDataset(int init_len, int resize_step, Action update_action, Action init_action) {
         this->resize_step = resize_step;
         this->update_action = update_action;
         this->init_action = init_action;
@@ -62,59 +72,50 @@ struct TestDataset
         init_action(&arr);
     }
 
-    void update()
-    {
+    void update() {
         update_action(&arr);
     }
-    void resize()
-    {
+
+    void resize() {
         arr.resize(arr.size() + this->resize_step);
-        for (int i = 0; i < arr.size(); ++i)
-        {
+        for (int i = 0; i < arr.size(); ++i) {
             arr[i] = i;
         }
     }
 };
 
-struct CSVSaver
-{
+struct CSVSaver {
     std::vector<double> sort_name_vector;
     std::pair<std::vector<double>, std::vector<double>> rnd_test_small;
     std::pair<std::vector<double>, std::vector<double>> rnd_test_big;
     std::pair<std::vector<double>, std::vector<double>> sorted_test;
     std::pair<std::vector<double>, std::vector<double>> reversed_test;
     std::vector<double> testing_arr_len;
-    void write_csv(std::string filename)
-    {
+
+    void write_csv(std::string filename) {
         std::vector<std::pair<std::string, std::vector<double>>> dataset = {
-            {"sort_name", sort_name_vector},
-            {"random_time_small", rnd_test_small.first},
-            {"random_steps_small", rnd_test_small.second},
-            {"random_time_big", rnd_test_big.first},
-            {"random_steps_big", rnd_test_big.second},
-            {"sorted_time", sorted_test.first},
-            {"sorted_steps", sorted_test.second},
-            {"reversed_time", reversed_test.first},
-            {"reversed_steps", reversed_test.second},
-            {"arr_len", testing_arr_len}};
+                {"sort_name",          sort_name_vector},
+                {"random_time_small",  rnd_test_small.first},
+                {"random_steps_small", rnd_test_small.second},
+                {"random_time_big",    rnd_test_big.first},
+                {"random_steps_big",   rnd_test_big.second},
+                {"sorted_time",        sorted_test.first},
+                {"sorted_steps",       sorted_test.second},
+                {"reversed_time",      reversed_test.first},
+                {"reversed_steps",     reversed_test.second},
+                {"arr_len",            testing_arr_len}};
         std::ofstream myFile(filename);
-        for (int j = 0; j < dataset.size(); ++j)
-        {
+        for (int j = 0; j < dataset.size(); ++j) {
             myFile << dataset.at(j).first;
             if (j != dataset.size() - 1)
                 myFile << ";";
         }
         myFile << "\n";
-        for (int i = 0; i < dataset.at(0).second.size(); ++i)
-        {
-            for (int j = 0; j < dataset.size(); ++j)
-            {
-                if (j == 0)
-                {
+        for (int i = 0; i < dataset.at(0).second.size(); ++i) {
+            for (int j = 0; j < dataset.size(); ++j) {
+                if (j == 0) {
                     myFile << func_names[dataset.at(j).second.at(i)];
-                }
-                else
-                {
+                } else {
                     myFile << dataset.at(j).second.at(i);
                 }
                 if (j != dataset.size() - 1)
@@ -132,11 +133,9 @@ struct CSVSaver
  * @param func
  * @return std::pair<double, uint64_t> <time, el operations>
  */
-std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_array, Func func, int func_index)
-{
+std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_array, Func func, int func_index) {
     std::vector<int> arr(random_array.size());
-    for (int i = 0; i < random_array.size(); ++i)
-    {
+    for (int i = 0; i < random_array.size(); ++i) {
         arr[i] = random_array[i];
     }
 
@@ -147,81 +146,59 @@ std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_ar
     return std::make_pair(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC, sortRes.second);
 }
 
-void updateRandomArray(std::vector<int> *arr)
-{
+void updateRandomArray(std::vector<int> *arr) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::shuffle(arr->begin(), arr->end(), gen);
 }
-void initReversedArray(std::vector<int> *arr)
-{
-    for (int i = 0; i < arr->size(); ++i)
-    {
-        (*arr)[i] = arr->size() - i;
+
+void initReversedArray(std::vector<int> *arr) {
+    for (int i = 0; i < arr->size(); ++i) {
+        arr->at(i) = arr->size() - i;
     }
 }
-void initNotFullySortedArray(std::vector<int> *arr)
-{
+
+void initNotFullySortedArray(std::vector<int> *arr) {
     std::random_device rd;                       // obtain a random number from hardware
     std::mt19937 gen(rd());                      // seed the generator
     std::uniform_int_distribution<> distr(0, 5); // define the range
-    for (int i = 0; i < arr->size(); ++i)
-    {
-        (*arr)[i] = i;
-        if (i > 3 && distr(gen) == 2)
-        {
-            (*arr)[i] = i - 2;
+    for (int i = 0; i < arr->size(); ++i) {
+        arr->at(i) = i;
+        if (i > 3 && distr(gen) == 2) {
+            arr->at(i) = i - 2;
         }
     }
 }
-void updateNotFullySortedArray(std::vector<int> *arr)
-{
+
+void updateNotFullySortedArray(std::vector<int> *arr) {
     initNotFullySortedArray(arr);
 }
-void updateReversedArray(std::vector<int> *arr)
-{
+
+void updateReversedArray(std::vector<int> *arr) {
     initReversedArray(arr);
 }
 
-void initSmallRandomArray(std::vector<int> *arr)
-{
+void initSmallRandomArray(std::vector<int> *arr) {
     std::random_device rd;                       // obtain a random number from hardware
     std::mt19937 gen(rd());                      // seed the generator
     std::uniform_int_distribution<> distr(0, 5); // define the range
 
-    for (int i = 0; i < arr->size(); ++i)
-    {
-        (*arr)[i] = distr(gen);
+    for (int i = 0; i < arr->size(); ++i) {
+        arr->at(i) = distr(gen);
     }
 }
-void initBigRandomArray(std::vector<int> *arr)
-{
+
+void initBigRandomArray(std::vector<int> *arr) {
     std::random_device rd;                          // obtain a random number from hardware
     std::mt19937 gen(rd());                         // seed the generator
     std::uniform_int_distribution<> distr(0, 4000); // define the range
 
-    for (int i = 0; i < arr->size(); ++i)
-    {
-        (*arr)[i] = distr(gen);
+    for (int i = 0; i < arr->size(); ++i) {
+        arr->at(i) = distr(gen);
     }
 }
 
-struct CheckSortsWorker
-{
-    std::vector<Func> funcs = {
-        bubbleSort,
-        bubbleIversonOneSort,
-        bubbleIversonOneAndTwoSort,
-        selectionSort,
-        linearInsertionSort,
-        binaryInsertionSort,
-        countingSort,
-        radixSort,
-        mergeSort,
-        hoarSort,
-        lomutoSort,
-        heapSort,
-    };
+struct CheckSortsWorker {
     TestDataset<UpdateFunc> *small_random_array;
     TestDataset<UpdateFunc> *big_random_array;
     TestDataset<UpdateFunc> *not_full_sorted_array;
@@ -231,11 +208,12 @@ struct CheckSortsWorker
     int step;
     std::string csvPath;
 
-    CheckSortsWorker(int initialLen, int step, int upperBound, std::string csvPath)
-    {
-        this->small_random_array = new TestDataset<UpdateFunc>(initialLen, step, updateRandomArray, initSmallRandomArray);
+    CheckSortsWorker(int initialLen, int step, int upperBound, std::string csvPath) {
+        this->small_random_array = new TestDataset<UpdateFunc>(initialLen, step, updateRandomArray,
+                                                               initSmallRandomArray);
         this->big_random_array = new TestDataset<UpdateFunc>(initialLen, step, updateRandomArray, initBigRandomArray);
-        this->not_full_sorted_array = new TestDataset<UpdateFunc>(initialLen, step, updateNotFullySortedArray, initNotFullySortedArray);
+        this->not_full_sorted_array = new TestDataset<UpdateFunc>(initialLen, step, updateNotFullySortedArray,
+                                                                  initNotFullySortedArray);
         this->reversed_array = new TestDataset<UpdateFunc>(initialLen, step, updateReversedArray, initReversedArray);
         this->initialLen = initialLen;
         this->step = step;
@@ -243,16 +221,14 @@ struct CheckSortsWorker
         this->csv_saver = new CSVSaver();
         this->csvPath = csvPath;
     }
-    void startMeasure()
-    {
-        for (size_t j = initialLen; j <= upperBound; j += step)
-        {
+
+    void startMeasure() {
+        for (size_t j = initialLen; j <= upperBound; j += step) {
             small_random_array->update();
             big_random_array->update();
             not_full_sorted_array->update();
             reversed_array->update();
-            for (int i = 0; i < numOfFuncs; ++i)
-            {
+            for (int i = 0; i < numOfFuncs; ++i) {
                 measure(funcs[i], i);
             }
             small_random_array->resize();
@@ -261,10 +237,11 @@ struct CheckSortsWorker
             reversed_array->resize();
         }
     }
-    void measure(Func func, int func_ind)
-    {
-        if (small_random_array->arr.size() != big_random_array->arr.size() || big_random_array->arr.size() != reversed_array->arr.size() || big_random_array->arr.size() != not_full_sorted_array->arr.size())
-        {
+
+    void measure(Func func, int func_ind) {
+        if (small_random_array->arr.size() != big_random_array->arr.size() ||
+            big_random_array->arr.size() != reversed_array->arr.size() ||
+            big_random_array->arr.size() != not_full_sorted_array->arr.size()) {
             std::cout << "err";
             return;
         }
@@ -280,11 +257,9 @@ struct CheckSortsWorker
         reverseSortedArrayMeasure(func, func_ind);
     }
 
-    void reverseSortedArrayMeasure(Func func, int func_ind)
-    {
+    void reverseSortedArrayMeasure(Func func, int func_ind) {
         std::vector<int> arr(this->reversed_array->arr.size());
-        for (int i = 0; i < this->reversed_array->arr.size(); ++i)
-        {
+        for (int i = 0; i < this->reversed_array->arr.size(); ++i) {
             arr[i] = this->reversed_array->arr[i];
         }
 
@@ -295,11 +270,10 @@ struct CheckSortsWorker
         csv_saver->reversed_test.first.push_back(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC);
         csv_saver->reversed_test.second.push_back(sortRes.second);
     }
-    void sortedArrayMeasure(Func func, int func_index)
-    {
+
+    void sortedArrayMeasure(Func func, int func_index) {
         std::vector<int> arr(this->not_full_sorted_array->arr.size());
-        for (int i = 0; i < this->not_full_sorted_array->arr.size(); ++i)
-        {
+        for (int i = 0; i < this->not_full_sorted_array->arr.size(); ++i) {
             arr[i] = this->not_full_sorted_array->arr[i];
         }
 
@@ -310,22 +284,37 @@ struct CheckSortsWorker
         csv_saver->sorted_test.first.push_back(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC);
         csv_saver->sorted_test.second.push_back(sortRes.second);
     }
-    void saveCSV()
-    {
+
+    void saveCSV() {
         csv_saver->write_csv(csvPath);
     }
 };
 
-int main()
-{
-    std::cout << "Start" << '\n';
-    auto case1 = new CheckSortsWorker(50, 10, 300, "../docs/case1.csv"); // Для от 50 до 300, шаг 10
-    case1->startMeasure();
-    case1->saveCSV();
+void output(std::vector<int> const &arr) {
+    for (int i = 0; i < arr.size(); ++i) {
+        std::cout << arr[i] << ' ' ;
+    }
+}
 
-    auto case2 = new CheckSortsWorker(100, 100, 4100, "../docs/case2.csv"); // Для от 100 до 4100, шаг 100
-    case2->startMeasure();
-    case2->saveCSV();
-    std::cout << "End" << '\n';
+int main() {
+//    std::cout << "Start" << '\n';
+//    auto case1 = new CheckSortsWorker(50, 10, 300, "../docs/case1.csv"); // Для от 50 до 300, шаг 10
+//    case1->startMeasure();
+//    case1->saveCSV();
+//
+//    auto case2 = new CheckSortsWorker(100, 100, 4100, "../docs/case2.csv"); // Для от 100 до 4100, шаг 100
+//    case2->startMeasure();
+//    case2->saveCSV();
+//    std::cout << "End" << '\n';
+    std::vector<int> arr(10, 0);
+    for (int i = 0; i < arr.size(); ++i) {
+        arr[i] = i;
+    }
+    updateRandomArray(&arr);
+    for (int i = 0; i < numOfFuncs; ++i) {
+        std::cout << func_names[i] << ':' << ' ';
+        funcs[i](arr.size(), arr);
+        std::cout << '\n';
+    }
     return 0;
 }
