@@ -348,7 +348,6 @@ std::pair<std::vector<int>, uint64_t> heapSort(size_t len, std::vector<int> arr)
 bool isSorted(std::vector<int> const &arr) {
     for (size_t i = 1; i < arr.size(); ++i) {
         if (arr[i - 1] > arr[i]) {
-            // std::cout << arr[i - 1] << ' ' << arr[i] << '\n';
             return false;
         }
     }
