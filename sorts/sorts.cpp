@@ -141,8 +141,23 @@ std::pair<std::vector<int>, uint64_t> binaryInsertionSort(size_t len, std::vecto
 }
 
 std::pair<std::vector<int>, uint64_t> countingSort(size_t len, std::vector<int> arr) {
-    // TODO{@OFFLUCK}
     uint64_t steps = 0;
+    std::vector<std::vector<int>> all_nums(10000);
+
+    for (size_t i = 0; i < len; ++i) {
+        all_nums[arr[i]].push_back(arr[i]);
+    }
+
+    arr.clear();
+    arr = std::vector<int>(len);
+    size_t pointer = 0;
+
+    for (size_t i = 0; i < all_nums.size(); ++i) {
+        for (size_t j = 0; j < all_nums[i].size(); ++j) {
+            arr[pointer] = all_nums[i][j];
+            ++pointer;
+        }
+    }
 
     std::cout << isSorted(arr) << '\n';
     return std::make_pair(arr, steps);
