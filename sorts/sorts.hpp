@@ -5,6 +5,12 @@
 #include <vector>
 #include <utility>
 
+bool isSorted(std::vector<int> const &arr);
+
+bool checkArraysElementsEquality(std::vector<int> const &was, std::vector<int> const &now);
+
+void output(size_t len, std::vector<int> const &arr);
+
 std::pair<std::vector<int>, uint64_t> bubbleSort(size_t len, std::vector<int> arr);
 
 std::pair<std::vector<int>, uint64_t> bubbleIversonOneSort(size_t len, std::vector<int> arr);
@@ -28,9 +34,5 @@ std::pair<std::vector<int>, uint64_t> hoarSort(size_t len, std::vector<int> arr)
 std::pair<std::vector<int>, uint64_t> lomutoSort(size_t len, std::vector<int> arr);
 
 std::pair<std::vector<int>, uint64_t> heapSort(size_t len, std::vector<int> arr);
-
-bool isSorted(std::vector<int> const &arr);
-
-bool checkArraysElementsEquality(std::vector<int> const &was, std::vector<int> const &now);
 
 #endif

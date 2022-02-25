@@ -5,6 +5,7 @@
 constexpr size_t kCountSize = 10000;
 
 void output(size_t len, std::vector<int> const &arr) {
+    std::cout << "Array size:" << ' ' << len << '\n';
     for (int i = 0; i < len; ++i) {
         std::cout << arr[i] << ' ';
     }
@@ -38,8 +39,8 @@ bool checkArraysElementsEquality(std::vector<int> const &was, std::vector<int> c
 std::pair<std::vector<int>, uint64_t> bubbleSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
 
-    for (size_t ind = 0; ind < len; ++ind) {
-        for (size_t j = 0; j < len - ind - 1; ++j) {
+    for (size_t i = 0; i < len; ++i) {
+        for (size_t j = 0; j < len - i - 1; ++j) {
             ++steps;
             if (arr[j] > arr[j + 1]) {
                 std::swap(arr[j], arr[j + 1]);
@@ -84,7 +85,7 @@ std::pair<std::vector<int>, uint64_t> bubbleIversonOneAndTwoSort(size_t len, std
     for (size_t i = 0; i < len; ++i) {
         curr_last_index = last_index;
         has_swaps = false;
-        for (size_t j = 0; j < curr_last_index; ++j) {
+        for (size_t j = 0; j < std::min(curr_last_index, len - i - 1); ++j) {
             ++steps;
             if (arr[j] > arr[j + 1]) {
                 has_swaps = true;
@@ -217,54 +218,56 @@ std::pair<std::vector<int>, uint64_t> radixSort(size_t len, std::vector<int> arr
     return std::make_pair(arr, steps);
 }
 
-std::vector<int> merge(size_t len1, std::vector<int> arr1, size_t len2, std::vector<int> arr2) {
-    size_t point1 = 0;
-    size_t point2 = 0;
-    std::vector<int> ans(len1 + len2);
-    while ((point1 < len1) && (point2 < len2)) {
-        if (arr1[point1] < arr2[point2]) {
-            ans[point1 + point2] = arr1[point1];
-            ++point1;
+void merge(std::vector<int> *arr, int left_pointer, int middle_pointer, int right_pointer) {
+    std::vector<int> first(middle_pointer - left_pointer + 1);
+    std::vector<int> second(right_pointer - middle_pointer);
+
+    for (int i = left_pointer; i < middle_pointer + 1; ++i) {
+        first[i - left_pointer] = (*arr)[i];
+    }
+
+    for (int i = middle_pointer + 1; i < right_pointer + 1; ++i) {
+        second[i - middle_pointer - 1] = (*arr)[i];
+    }
+
+    int p1 = 0;
+    int p2 = 0;
+    while ((p1 < first.size()) && (p2 < second.size())) {
+        if (first[p1] < second[p2]) {
+            (*arr)[left_pointer + p1 + p2] = first[p1];
+            ++p1;
         } else {
-            ans[point1 + point2] = arr2[point2];
-            ++point2;
+            (*arr)[left_pointer + p1 + p2] = second[p2];
+            ++p2;
         }
     }
-    while (point1 < len1) {
-        ans[point1 + point2] = arr1[point1];
-        ++point1;
+    while (p1 < first.size()) {
+        (*arr)[left_pointer + p1 + p2] = first[p1];
+        ++p1;
     }
-    while (point2 < len2) {
-        ans[point1 + point2] = arr2[point2];
-        ++point2;
+    while (p2 < second.size()) {
+        (*arr)[left_pointer + p1 + p2] = second[p2];
+        ++p2;
     }
-    return ans;
 }
 
 std::pair<std::vector<int>, uint64_t> mergeSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
-
-    if (len == 1) {
-        std::cout << isSorted(arr) << '\n';
-        return std::make_pair(arr, 1);
+    int current_length;
+    int left_pointer;
+    int middle_pointer;
+    int right_pointer;
+    for (current_length = 1; current_length < len; current_length *= 2) {
+        for (left_pointer = 0; left_pointer < len - 1; left_pointer += 2 * current_length) {
+            middle_pointer = std::min(left_pointer + current_length, static_cast<int>(len)) - 1;
+            right_pointer = std::min(left_pointer + 2 * current_length, static_cast<int>(len)) - 1;
+            merge(&arr, left_pointer, middle_pointer, right_pointer);
+            steps += right_pointer - left_pointer;
+        }
     }
 
-    std::vector<int>::const_iterator begin = arr.begin();
-    std::vector<int>::const_iterator middle = arr.begin() + static_cast<int>(len) / 2;
-    std::vector<int>::const_iterator end = arr.end();
-    std::vector<int> first(begin, middle);
-    std::vector<int> second(middle, end);
-
-    std::pair<std::vector<int>, uint64_t> first_ans = mergeSort(first.size(), first);
-    std::pair<std::vector<int>, uint64_t> second_ans = mergeSort(first.size(), first);
-
-    first = first_ans.first;
-    second = second_ans.first;
-    steps += first_ans.second + second_ans.second;
-    std::vector<int> merge_result = merge(first.size(), first, second.size(), second);
-
-    isSorted(merge_result);
-    return std::make_pair(merge_result, steps);
+    std::cout << isSorted(arr) << '\n';
+    return std::make_pair(arr, steps);
 }
 
 int64_t hoarPartition(std::vector<int> *arr, size_t left, size_t right, uint64_t *steps) {
@@ -297,7 +300,6 @@ void quickHoarSort(std::vector<int> *arr, size_t left, size_t right, uint64_t *s
     }
 }
 
-// NOT TESTED!!!
 std::pair<std::vector<int>, uint64_t> hoarSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
     quickHoarSort(&arr, 0, len - 1, &steps);
@@ -328,7 +330,6 @@ void quickLomutoSort(std::vector<int> *arr, int left, int right, uint64_t *steps
     }
 }
 
-// NOT TESTED!!!
 std::pair<std::vector<int>, uint64_t> lomutoSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
     quickLomutoSort(&arr, 0, len - 1, &steps);

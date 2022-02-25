@@ -291,35 +291,29 @@ struct CheckSortsWorker {
     }
 };
 
-void output(std::vector<int> const &arr) {
-    for (int i = 0; i < arr.size(); ++i) {
-        std::cout << arr[i] << ' ' ;
-    }
-}
-
-
-
 int main() {
-//    std::cout << "Start" << '\n';
-//    auto case1 = new CheckSortsWorker(50, 10, 300, "../docs/case1.csv"); // Для от 50 до 300, шаг 10
-//    case1->startMeasure();
-//    case1->saveCSV();
-//
-//    auto case2 = new CheckSortsWorker(100, 100, 4100, "../docs/case2.csv"); // Для от 100 до 4100, шаг 100
-//    case2->startMeasure();
-//    case2->saveCSV();
-//    std::cout << "End" << '\n';
-    std::vector<int> arr(1000, 0);
-    std::vector<int> sorted_arr;
-    for (int i = 0; i < arr.size(); ++i) {
-        arr[i] = i;
-    }
-    updateRandomArray(&arr);
-    for (int i = 0; i < numOfFuncs; ++i) {
-        std::cout << func_names[i] << ':' << ' ';
-        sorted_arr = funcs[i](arr.size(), arr).first;
-        std::cout << "Are arrays elements equal: " << checkArraysElementsEquality(arr, sorted_arr) << '\n';
-        std::cout << '\n';
-    }
+    std::cout << "Start" << '\n';
+    auto case1 = new CheckSortsWorker(50, 10, 300, "../docs/case1.csv"); // Для от 50 до 300, шаг 10
+    case1->startMeasure();
+    case1->saveCSV();
+
+    auto case2 = new CheckSortsWorker(100, 100, 4100, "../docs/case2.csv"); // Для от 100 до 4100, шаг 100
+    case2->startMeasure();
+    case2->saveCSV();
+    std::cout << "End" << '\n';
+//    std::vector<int> arr(1000, 0);
+//    std::vector<int> sorted_arr;
+//    for (int i = 0; i < arr.size(); ++i) {
+//        arr[i] = i;
+//    }
+//    updateRandomArray(&arr);
+//    for (int i = 0; i < numOfFuncs; ++i) {
+//        std::cout << func_names[i] << ':' << ' ';
+//        sorted_arr = funcs[i](arr.size(), arr).first;
+//        output(arr.size(), arr);
+//        output(sorted_arr.size(), sorted_arr);
+//        std::cout << "Are arrays elements equal: " << checkArraysElementsEquality(arr, sorted_arr) << '\n';
+//        std::cout << '\n';
+//    }
     return 0;
 }
