@@ -31,4 +31,6 @@ std::pair<std::vector<int>, uint64_t> heapSort(size_t len, std::vector<int> arr)
 
 bool isSorted(std::vector<int> const &arr);
 
+bool checkArraysElementsEquality(std::vector<int> const &was, std::vector<int> const &now);
+
 #endif

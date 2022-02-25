@@ -1,11 +1,38 @@
-#include "sorts.hpp"
 #include <iostream>
+#include <vector>
+#include "sorts.hpp"
+
+constexpr size_t kCountSize = 10000;
 
 void output(size_t len, std::vector<int> const &arr) {
     for (int i = 0; i < len; ++i) {
         std::cout << arr[i] << ' ';
     }
     std::cout << '\n';
+}
+
+bool checkArraysElementsEquality(std::vector<int> const &was, std::vector<int> const &now) {
+    if (was.size() != now.size()) {
+        std::cout << "Size" << '\n';
+        return false;
+    }
+
+    size_t size = was.size();
+    std::vector<int> all_elems_was(kCountSize);
+    std::vector<int> all_elems_now(kCountSize);
+
+    for (int i = 0; i < size; ++i) {
+        ++all_elems_was[was[i]];
+        ++all_elems_now[now[i]];
+    }
+
+    for (int i = 0; i < kCountSize; ++i) {
+        if (all_elems_was != all_elems_now) {
+            std::cout << "Elems" << '\n';
+            return false;
+        }
+    }
+    return true;
 }
 
 std::pair<std::vector<int>, uint64_t> bubbleSort(size_t len, std::vector<int> arr) {
@@ -142,7 +169,7 @@ std::pair<std::vector<int>, uint64_t> binaryInsertionSort(size_t len, std::vecto
 
 std::pair<std::vector<int>, uint64_t> countingSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
-    std::vector<std::vector<int>> all_nums(10000);
+    std::vector<std::vector<int>> all_nums(kCountSize);
 
     for (size_t i = 0; i < len; ++i) {
         all_nums[arr[i]].push_back(arr[i]);
@@ -152,7 +179,7 @@ std::pair<std::vector<int>, uint64_t> countingSort(size_t len, std::vector<int> 
     arr = std::vector<int>(len);
     size_t pointer = 0;
 
-    for (size_t i = 0; i < all_nums.size(); ++i) {
+    for (size_t i = 0; i < kCountSize; ++i) {
         for (size_t j = 0; j < all_nums[i].size(); ++j) {
             arr[pointer] = all_nums[i][j];
             ++pointer;

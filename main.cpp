@@ -3,6 +3,7 @@
 #include <random>
 #include <algorithm>
 #include <ctime>
+#include <vector>
 #include "sorts/sorts.hpp"
 
 typedef std::pair<std::vector<int>, uint64_t> (*Func)(size_t len, std::vector<int> arr);
@@ -296,6 +297,8 @@ void output(std::vector<int> const &arr) {
     }
 }
 
+
+
 int main() {
 //    std::cout << "Start" << '\n';
 //    auto case1 = new CheckSortsWorker(50, 10, 300, "../docs/case1.csv"); // Для от 50 до 300, шаг 10
@@ -306,14 +309,16 @@ int main() {
 //    case2->startMeasure();
 //    case2->saveCSV();
 //    std::cout << "End" << '\n';
-    std::vector<int> arr(10, 0);
+    std::vector<int> arr(1000, 0);
+    std::vector<int> sorted_arr;
     for (int i = 0; i < arr.size(); ++i) {
         arr[i] = i;
     }
     updateRandomArray(&arr);
     for (int i = 0; i < numOfFuncs; ++i) {
         std::cout << func_names[i] << ':' << ' ';
-        funcs[i](arr.size(), arr);
+        sorted_arr = funcs[i](arr.size(), arr).first;
+        std::cout << "Are arrays elements equal: " << checkArraysElementsEquality(arr, sorted_arr) << '\n';
         std::cout << '\n';
     }
     return 0;
