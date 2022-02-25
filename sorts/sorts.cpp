@@ -1,6 +1,13 @@
 #include "sorts.hpp"
 #include <iostream>
 
+void output(size_t len, std::vector<int> const &arr) {
+    for (int i = 0; i < len; ++i) {
+        std::cout << arr[i] << ' ';
+    }
+    std::cout << '\n';
+}
+
 std::pair<std::vector<int>, uint64_t> bubbleSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
 
@@ -294,15 +301,15 @@ void heapBuild(size_t len, size_t ind, std::vector<int> *arr) {
     size_t right = 2 * big_elem + 2;
 
     if (left < len) {
-        big_elem = (*arr)[left] > (*arr)[big_elem] ? left : big_elem;
+        big_elem = arr->at(left) > arr->at(big_elem) ? left : big_elem;
     }
 
     if (right < len) {
-        big_elem = (*arr)[right] > (*arr)[big_elem] ? right : big_elem;
+        big_elem = arr->at(right) > arr->at(big_elem) ? right : big_elem;
     }
 
     if (big_elem != ind) {
-        std::swap((*arr)[ind], (*arr)[big_elem]);
+        std::swap(arr->at(ind), arr->at(big_elem));
         heapBuild(len, big_elem, arr);
     }
 }
@@ -310,11 +317,11 @@ void heapBuild(size_t len, size_t ind, std::vector<int> *arr) {
 std::pair<std::vector<int>, uint64_t> heapSort(size_t len, std::vector<int> arr) {
     uint64_t steps = 0;
 
-    for (size_t i = len / 2 - 1; i > -1; --i) {
+    for (int i = len / 2 - 1; i > -1; --i) {
         heapBuild(len, i, &arr);
     }
 
-    for (size_t i = len - 1; i > 0; --i) {
+    for (int i = len - 1; i > 0; --i) {
         std::swap(arr[0], arr[i]);
         heapBuild(i, 0, &arr);
     }
