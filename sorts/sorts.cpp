@@ -18,7 +18,6 @@ std::pair<std::vector<int>, uint64_t> bubbleSort(size_t len, std::vector<int> ar
 }
 
 std::pair<std::vector<int>, uint64_t> bubbleIversonOneSort(size_t len, std::vector<int> arr) {
-    // TODO{Mike}
     uint64_t steps = 0;
     bool has_swaps;
 
@@ -43,8 +42,27 @@ std::pair<std::vector<int>, uint64_t> bubbleIversonOneSort(size_t len, std::vect
 }
 
 std::pair<std::vector<int>, uint64_t> bubbleIversonOneAndTwoSort(size_t len, std::vector<int> arr) {
-    // TODO{@OFFLUCK}
     uint64_t steps = 0;
+    size_t last_index = len;
+    size_t curr_last_index;
+    bool has_swaps;
+
+    for (size_t i = 0; i < len; ++i) {
+        curr_last_index = last_index;
+        has_swaps = false;
+        for (size_t j = 0; j < curr_last_index; ++j) {
+            ++steps;
+            if (arr[j] > arr[j + 1]) {
+                has_swaps = true;
+                std::swap(arr[j], arr[j + 1]);
+                last_index = j;
+            }
+        }
+
+        if (!has_swaps) {
+            break;
+        }
+    }
 
     std::cout << isSorted(arr) << '\n';
     return std::make_pair(arr, steps);
