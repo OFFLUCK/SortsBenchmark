@@ -6,14 +6,18 @@
 #include <vector>
 #include "sorts/sorts.hpp"
 
+// Sort pointer type.
 typedef std::pair<std::vector<int>, uint64_t> (*Func)(size_t len, std::vector<int> arr);
-
+// Random shuffle function pointer type.
 typedef void (*UpdateFunc)(std::vector<int> *arr);
 
+// Number of sorts.
 constexpr int numOfFuncs = 12;
+// Milliseconds in second.
 constexpr int milis = 1000;
-constexpr int sortAttempts = 100;
-constexpr int arrLength = 1000;
+// constexpr int sortAttempts = 100;
+// constexpr int arrLength = 1000;
+// Array of sorts' names.
 const std::vector<std::string> func_names = {
         "BubbleSort",
         "BubbleSortIverson1",
@@ -28,6 +32,7 @@ const std::vector<std::string> func_names = {
         "LomutoSort",
         "HeapSort",
 };
+// Array of sorts' pointers.
 const std::vector<Func> funcs = {
         bubbleSort,
         bubbleIversonOneSort,
@@ -44,9 +49,8 @@ const std::vector<Func> funcs = {
 };
 
 /**
- * @brief Test Is Sorted
- *
- * @param testing_arr
+ * @brief - Checks if array was sorted and outputs the result.
+ * @param testing_arr - input array.
  */
 void testIsSorted(std::vector<int> const &testing_arr, int func_index) {
     bool is_sorted = isSorted(testing_arr);
@@ -129,10 +133,9 @@ struct CSVSaver {
 };
 
 /**
- * @brief Тест на ранд. наборе
- *
- * @param func
- * @return std::pair<double, uint64_t> <time, el operations>
+ * @brief - Random array test.
+ * @param func - sort.
+ * @return pair of time and number of operations.
  */
 std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_array, Func func, int func_index) {
     std::vector<int> arr(random_array.size());
@@ -147,18 +150,30 @@ std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_ar
     return std::make_pair(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC, sortRes.second);
 }
 
+/**
+ * @brief - Random shuffle of an array.
+ * @param arr - array pointer.
+ */
 void updateRandomArray(std::vector<int> *arr) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::shuffle(arr->begin(), arr->end(), gen);
 }
 
+/**
+ * @brief - Creates reverse ordered array.
+ * @param arr - array pointer.
+ */
 void initReversedArray(std::vector<int> *arr) {
     for (int i = 0; i < arr->size(); ++i) {
         arr->at(i) = arr->size() - i;
     }
 }
 
+/**
+ * @brief - Creates almost sorted array.
+ * @param arr - array pointer.
+ */
 void initNotFullySortedArray(std::vector<int> *arr) {
     std::random_device rd;                       // obtain a random number from hardware
     std::mt19937 gen(rd());                      // seed the generator
@@ -180,9 +195,10 @@ void updateReversedArray(std::vector<int> *arr) {
 }
 
 void initSmallRandomArray(std::vector<int> *arr) {
-    std::random_device rd;                       // obtain a random number from hardware
-    std::mt19937 gen(rd());                      // seed the generator
-    std::uniform_int_distribution<> distr(0, 5); // define the range
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    // Range is set to [0..4].
+    std::uniform_int_distribution<> distr(0, 5);
 
     for (int i = 0; i < arr->size(); ++i) {
         arr->at(i) = distr(gen);
@@ -190,9 +206,10 @@ void initSmallRandomArray(std::vector<int> *arr) {
 }
 
 void initBigRandomArray(std::vector<int> *arr) {
-    std::random_device rd;                          // obtain a random number from hardware
-    std::mt19937 gen(rd());                         // seed the generator
-    std::uniform_int_distribution<> distr(0, 4000); // define the range
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    // Range is set to [0..999].
+    std::uniform_int_distribution<> distr(0, 4000);
 
     for (int i = 0; i < arr->size(); ++i) {
         arr->at(i) = distr(gen);
@@ -293,11 +310,11 @@ struct CheckSortsWorker {
 
 int main() {
     std::cout << "Start" << '\n';
-    auto case1 = new CheckSortsWorker(50, 10, 300, "../docs/case1.csv"); // Для от 50 до 300, шаг 10
+    auto case1 = new CheckSortsWorker(50, 10, 300, "../docs/case1.csv");
     case1->startMeasure();
     case1->saveCSV();
 
-    auto case2 = new CheckSortsWorker(100, 100, 4100, "../docs/case2.csv"); // Для от 100 до 4100, шаг 100
+    auto case2 = new CheckSortsWorker(100, 100, 4100, "../docs/case2.csv");
     case2->startMeasure();
     case2->saveCSV();
     std::cout << "End" << '\n';

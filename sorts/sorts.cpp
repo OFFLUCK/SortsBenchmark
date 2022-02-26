@@ -2,8 +2,14 @@
 #include <vector>
 #include "sorts.hpp"
 
+// Constant number of int range for counting sort.
 constexpr size_t kCountSize = 10000;
 
+/**
+ * @brief - Outputs the array.
+ * @param len - Array length.
+ * @param arr
+ */
 void output(size_t len, std::vector<int> const &arr) {
     std::cout << "Array size:" << ' ' << len << '\n';
     for (int i = 0; i < len; ++i) {
@@ -12,27 +18,38 @@ void output(size_t len, std::vector<int> const &arr) {
     std::cout << '\n';
 }
 
+/**
+ * @brief - Checks if was array fill is the same as now array fill. Warning: based on unstable counting sort.
+ * @param was - Array before sort.
+ * @param now - Array after sort.
+ * @return - Verdict.
+ */
 bool checkArraysElementsEquality(std::vector<int> const &was, std::vector<int> const &now) {
+    // Sizes are not the same => arrays are not the same.
     if (was.size() != now.size()) {
         std::cout << "Size" << '\n';
         return false;
     }
 
+    // Vectors almost same as for counting sort.
     size_t size = was.size();
     std::vector<int> all_elems_was(kCountSize);
     std::vector<int> all_elems_now(kCountSize);
 
+    // Filling vectors.
     for (int i = 0; i < size; ++i) {
         ++all_elems_was[was[i]];
         ++all_elems_now[now[i]];
     }
 
+    // Checking if arrays are equal.
     for (int i = 0; i < kCountSize; ++i) {
         if (all_elems_was != all_elems_now) {
             std::cout << "Elems" << '\n';
             return false;
         }
     }
+
     return true;
 }
 
@@ -379,5 +396,6 @@ bool isSorted(std::vector<int> const &arr) {
             return false;
         }
     }
+
     return true;
 }
