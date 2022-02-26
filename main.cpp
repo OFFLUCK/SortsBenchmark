@@ -14,8 +14,7 @@ typedef void (*UpdateFunc)(std::vector<int> *arr);
 
 // Number of sorts.
 constexpr int numOfFuncs = 12;
-// Milliseconds in second.
-constexpr int milis = 1000;
+constexpr int microSec = 1000000;
 // constexpr int sortAttempts = 100;
 // constexpr int arrLength = 1000;
 // Array of sorts' names.
@@ -148,7 +147,7 @@ std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_ar
     auto sortRes = func(random_array.size(), arr);
     clock_t end = clock();
     testIsSorted(sortRes.first, func_index);
-    return std::make_pair(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC, sortRes.second);
+    return std::make_pair(static_cast<double>(end - start) * microSec / CLOCKS_PER_SEC, sortRes.second);
 }
 
 /**
@@ -286,7 +285,7 @@ struct CheckSortsWorker {
         auto sortRes = func(this->not_full_sorted_array->arr.size(), arr);
         clock_t end = clock();
         testIsSorted(sortRes.first, func_ind);
-        csv_saver->reversed_test.first.push_back(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC);
+        csv_saver->reversed_test.first.push_back(static_cast<double>(end - start) * microSec / CLOCKS_PER_SEC);
         csv_saver->reversed_test.second.push_back(sortRes.second);
     }
 
@@ -300,7 +299,7 @@ struct CheckSortsWorker {
         auto sortRes = func(this->not_full_sorted_array->arr.size(), arr);
         clock_t end = clock();
         testIsSorted(sortRes.first, func_index);
-        csv_saver->sorted_test.first.push_back(static_cast<double>(end - start) * milis / CLOCKS_PER_SEC);
+        csv_saver->sorted_test.first.push_back(static_cast<double>(end - start) * microSec / CLOCKS_PER_SEC);
         csv_saver->sorted_test.second.push_back(sortRes.second);
     }
 
