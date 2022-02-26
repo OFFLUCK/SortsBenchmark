@@ -19,6 +19,21 @@ void output(size_t len, std::vector<int> const &arr) {
 }
 
 /**
+ * @brief - Checks if array is sorted.
+ * @param arr - Constant array's reference.
+ * @return - Verdict.
+ */
+bool isSorted(std::vector<int> const &arr) {
+    for (size_t i = 1; i < arr.size(); ++i) {
+        if (arr[i - 1] > arr[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
  * @brief - Checks if was array fill is the same as now array fill. Warning: based on unstable counting sort.
  * @param was - Array before sort.
  * @param now - Array after sort.
@@ -388,14 +403,4 @@ std::pair<std::vector<int>, uint64_t> heapSort(size_t len, std::vector<int> arr)
 
     std::cout << isSorted(arr) << '\n';
     return std::make_pair(arr, steps);
-}
-
-bool isSorted(std::vector<int> const &arr) {
-    for (size_t i = 1; i < arr.size(); ++i) {
-        if (arr[i - 1] > arr[i]) {
-            return false;
-        }
-    }
-
-    return true;
 }

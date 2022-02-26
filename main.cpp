@@ -8,6 +8,7 @@
 
 // Sort pointer type.
 typedef std::pair<std::vector<int>, uint64_t> (*Func)(size_t len, std::vector<int> arr);
+
 // Random shuffle function pointer type.
 typedef void (*UpdateFunc)(std::vector<int> *arr);
 

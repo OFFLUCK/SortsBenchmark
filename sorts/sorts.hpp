@@ -5,11 +5,27 @@
 #include <vector>
 #include <utility>
 
+/**
+ * @brief - Outputs the array.
+ * @param len - Array length.
+ * @param arr
+ */
+void output(size_t len, std::vector<int> const &arr);
+
+/**
+ * @brief - Checks if array is sorted.
+ * @param arr - Constant array's reference.
+ * @return - Verdict.
+ */
 bool isSorted(std::vector<int> const &arr);
 
+/**
+ * @brief - Checks if was array fill is the same as now array fill. Warning: based on unstable counting sort.
+ * @param was - Array before sort.
+ * @param now - Array after sort.
+ * @return - Verdict.
+ */
 bool checkArraysElementsEquality(std::vector<int> const &was, std::vector<int> const &now);
-
-void output(size_t len, std::vector<int> const &arr);
 
 std::pair<std::vector<int>, uint64_t> bubbleSort(size_t len, std::vector<int> arr);
 
