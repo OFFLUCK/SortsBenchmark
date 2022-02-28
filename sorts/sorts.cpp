@@ -3,7 +3,7 @@
 #include "sorts.hpp"
 
 // Constant number of int range for counting sort.
-constexpr size_t kCountSize = 10000;
+constexpr size_t kCountSize = 8192;
 
 /**
  * @brief - Outputs the array.
