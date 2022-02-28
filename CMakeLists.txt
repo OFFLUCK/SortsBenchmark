@@ -3,4 +3,4 @@ project(THW)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(THW main.cpp sorts/sorts.cpp sorts/sorts.hpp TestDataset.cpp TestDataset.hpp)
+add_executable(THW main.cpp sorts/sorts.cpp sorts/sorts.hpp TestDataset.cpp TestDataset.hpp TestDataset.cpp)

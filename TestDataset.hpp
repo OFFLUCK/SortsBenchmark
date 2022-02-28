@@ -2,6 +2,7 @@
 #define THW_TESTDATASET_HPP
 
 #include <vector>
+#include <cstdio>
 
 template<typename Action>
 struct TestDataset {
