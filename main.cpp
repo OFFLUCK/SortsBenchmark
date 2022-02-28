@@ -5,6 +5,7 @@
 #include <ctime>
 #include <vector>
 #include "sorts/sorts.hpp"
+#include "TestDataset.hpp"
 
 // Sort pointer type.
 typedef std::pair<std::vector<int>, uint64_t> (*Func)(size_t len, std::vector<int> arr);
@@ -55,45 +56,12 @@ const std::vector<Func> funcs = {
 void testIsSorted(std::vector<int> const &testing_arr, int func_index) {
     bool is_sorted = isSorted(testing_arr);
     if (!is_sorted) {
-        std::cout << func_names[func_index] << " testIsSorted [-]\n";
+        // std::cout << func_names[func_index] << " testIsSorted [-]\n";
         return;
     } else {
-        std::cout << func_names[func_index] << " testIsSorted [+]\n";
+        // std::cout << func_names[func_index] << " testIsSorted [+]\n";
     }
 }
-
-template<typename Action>
-struct TestDataset {
-    std::vector<int> arr;
-    Action update_action;
-    Action init_action;
-    int resize_step;
-
-    TestDataset(int init_len, int resize_step, Action init_action) {
-        this->resize_step = resize_step;
-        this->update_action = update_action;
-        this->init_action = init_action;
-        arr = std::vector<int>(init_len);
-        init_action(&arr);
-    }
-
-    void update() {
-        init_action(&arr);
-        std::cout << arr.size() << '\n';
-        for (size_t i = 0; i < 20; i++)
-        {
-            std::cout << arr[i] << ' ';
-        }
-        std::cout << '\n';
-    }
-
-    void resize() {
-        arr.resize(arr.size() + this->resize_step);
-        for (int i = 0; i < arr.size(); ++i) {
-            arr[i] = i;
-        }
-    }
-};
 
 struct CSVSaver {
     std::vector<double> sort_name_vector;
@@ -214,7 +182,7 @@ struct CheckSortsWorker {
     std::string csvPath;
 
     CheckSortsWorker(int initialLen, int step, int upperBound, std::string csvPath) {
-        this->small_random_array = new TestDataset<UpdateFunc>(initialLen, step, 
+        this->small_random_array = new TestDataset<UpdateFunc>(initialLen, step,
                                                                initSmallRandomArray);
         this->big_random_array = new TestDataset<UpdateFunc>(initialLen, step, initBigRandomArray);
         this->not_full_sorted_array = new TestDataset<UpdateFunc>(initialLen, step,
@@ -227,7 +195,7 @@ struct CheckSortsWorker {
         this->csvPath = csvPath;
     }
 
-    ~CheckSortsWorker(){
+    ~CheckSortsWorker() {
         delete small_random_array;
         delete big_random_array;
         delete not_full_sorted_array;
@@ -255,7 +223,7 @@ struct CheckSortsWorker {
         if (small_random_array->arr.size() != big_random_array->arr.size() ||
             big_random_array->arr.size() != reversed_array->arr.size() ||
             big_random_array->arr.size() != not_full_sorted_array->arr.size()) {
-            std::cout << "err";
+            // std::cout << "err";
             return;
         }
         csv_saver->sort_name_vector.push_back(func_ind);
@@ -320,12 +288,12 @@ int main() {
 //    }
 //    updateRandomArray(&arr);
 //    for (int i = 0; i < numOfFuncs; ++i) {
-//        std::cout << func_names[i] << ':' << ' ';
+//        // std::cout << func_names[i] << ':' << ' ';
 //        sorted_arr = funcs[i](arr.size(), arr).first;
 //        output(arr.size(), arr);
 //        output(sorted_arr.size(), sorted_arr);
-//        std::cout << "Are arrays elements equal: " << checkArraysElementsEquality(arr, sorted_arr) << '\n';
-//        std::cout << '\n';
+//        // std::cout << "Are arrays elements equal: " << checkArraysElementsEquality(arr, sorted_arr) << '\n';
+//        // std::cout << '\n';
 //    }
     delete case2;
     delete case1;
