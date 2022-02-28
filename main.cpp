@@ -69,7 +69,7 @@ struct TestDataset {
     Action init_action;
     int resize_step;
 
-    TestDataset(int init_len, int resize_step, Action update_action, Action init_action) {
+    TestDataset(int init_len, int resize_step, Action init_action) {
         this->resize_step = resize_step;
         this->update_action = update_action;
         this->init_action = init_action;
@@ -78,7 +78,13 @@ struct TestDataset {
     }
 
     void update() {
-        update_action(&arr);
+        init_action(&arr);
+        std::cout << arr.size() << '\n';
+        for (size_t i = 0; i < 20; i++)
+        {
+            std::cout << arr[i] << ' ';
+        }
+        std::cout << '\n';
     }
 
     void resize() {
@@ -151,16 +157,6 @@ std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_ar
 }
 
 /**
- * @brief - Random shuffle of an array.
- * @param arr - array pointer.
- */
-void updateRandomArray(std::vector<int> *arr) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::shuffle(arr->begin(), arr->end(), gen);
-}
-
-/**
  * @brief - Creates reverse ordered array.
  * @param arr - array pointer.
  */
@@ -186,18 +182,9 @@ void initNotFullySortedArray(std::vector<int> *arr) {
     }
 }
 
-void updateNotFullySortedArray(std::vector<int> *arr) {
-    initNotFullySortedArray(arr);
-}
-
-void updateReversedArray(std::vector<int> *arr) {
-    initReversedArray(arr);
-}
-
 void initSmallRandomArray(std::vector<int> *arr) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    // Range is set to [0..4].
     std::uniform_int_distribution<> distr(0, 5);
 
     for (int i = 0; i < arr->size(); ++i) {
@@ -227,17 +214,25 @@ struct CheckSortsWorker {
     std::string csvPath;
 
     CheckSortsWorker(int initialLen, int step, int upperBound, std::string csvPath) {
-        this->small_random_array = new TestDataset<UpdateFunc>(initialLen, step, updateRandomArray,
+        this->small_random_array = new TestDataset<UpdateFunc>(initialLen, step, 
                                                                initSmallRandomArray);
-        this->big_random_array = new TestDataset<UpdateFunc>(initialLen, step, updateRandomArray, initBigRandomArray);
-        this->not_full_sorted_array = new TestDataset<UpdateFunc>(initialLen, step, updateNotFullySortedArray,
+        this->big_random_array = new TestDataset<UpdateFunc>(initialLen, step, initBigRandomArray);
+        this->not_full_sorted_array = new TestDataset<UpdateFunc>(initialLen, step,
                                                                   initNotFullySortedArray);
-        this->reversed_array = new TestDataset<UpdateFunc>(initialLen, step, updateReversedArray, initReversedArray);
+        this->reversed_array = new TestDataset<UpdateFunc>(initialLen, step, initReversedArray);
         this->initialLen = initialLen;
         this->step = step;
         this->upperBound = upperBound;
         this->csv_saver = new CSVSaver();
         this->csvPath = csvPath;
+    }
+
+    ~CheckSortsWorker(){
+        delete small_random_array;
+        delete big_random_array;
+        delete not_full_sorted_array;
+        delete reversed_array;
+        delete csv_saver;
     }
 
     void startMeasure() {
@@ -332,5 +327,7 @@ int main() {
 //        std::cout << "Are arrays elements equal: " << checkArraysElementsEquality(arr, sorted_arr) << '\n';
 //        std::cout << '\n';
 //    }
+    delete case2;
+    delete case1;
     return 0;
 }
