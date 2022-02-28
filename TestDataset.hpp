@@ -4,6 +4,8 @@
 #include <vector>
 #include <cstdio>
 
+// Initializes and updates the array.
+// Action == function.
 template<typename Action>
 struct TestDataset {
     std::vector<int> arr;

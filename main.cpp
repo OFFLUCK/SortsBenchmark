@@ -1,3 +1,11 @@
+// ПиАА 2022, Сидоренков Олег Владимирович, БПИ204.
+// CLion.
+// Сделано всё, что описано в тз.
+// CaAA 2022, Sidorenkov Oleg Vladimirovich, BSE204.
+// CLion.
+// Done everything, written in task.
+// CSV inspired by: https://www.gormanalysis.com/blog/reading-and-writing-csv-files-with-cpp/
+
 #include <iostream>
 #include <fstream>
 #include <random>
@@ -14,10 +22,10 @@ typedef std::pair<std::vector<int>, uint64_t> (*Func)(size_t len, std::vector<in
 typedef void (*UpdateFunc)(std::vector<int> *arr);
 
 // Number of sorts.
-constexpr int numOfFuncs = 12;
-constexpr int microSec = 1000000;
-// constexpr int sortAttempts = 100;
-// constexpr int arrLength = 1000;
+constexpr int kNumOfFuncs = 12;
+// Number of microseconds in one second.
+constexpr int kMicroSec = 1000000;
+
 // Array of sorts' names.
 const std::vector<std::string> func_names = {
         "BubbleSort",
@@ -33,6 +41,7 @@ const std::vector<std::string> func_names = {
         "LomutoSort",
         "HeapSort",
 };
+
 // Array of sorts' pointers.
 const std::vector<Func> funcs = {
         bubbleSort,
@@ -121,7 +130,7 @@ std::pair<double, uint64_t> randomArrayMeasure(std::vector<int> const &random_ar
     auto sortRes = func(random_array.size(), arr);
     clock_t end = clock();
     testIsSorted(sortRes.first, func_index);
-    return std::make_pair(static_cast<double>(end - start) * microSec / CLOCKS_PER_SEC, sortRes.second);
+    return std::make_pair(static_cast<double>(end - start) * kMicroSec / CLOCKS_PER_SEC, sortRes.second);
 }
 
 /**
@@ -150,6 +159,10 @@ void initNotFullySortedArray(std::vector<int> *arr) {
     }
 }
 
+/**
+ * @brief - Creates array with random numbers in [0, 5].
+ * @param arr - array pointer.
+ */
 void initSmallRandomArray(std::vector<int> *arr) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -160,6 +173,10 @@ void initSmallRandomArray(std::vector<int> *arr) {
     }
 }
 
+/**
+ * @brief - Creates array with random numbers in [0, 4000].
+ * @param arr - array pointer.
+ */
 void initBigRandomArray(std::vector<int> *arr) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -171,6 +188,7 @@ void initBigRandomArray(std::vector<int> *arr) {
     }
 }
 
+// Measuring and writing to .csv.
 struct CheckSortsWorker {
     TestDataset<UpdateFunc> *small_random_array;
     TestDataset<UpdateFunc> *big_random_array;
@@ -209,7 +227,7 @@ struct CheckSortsWorker {
             big_random_array->update();
             not_full_sorted_array->update();
             reversed_array->update();
-            for (int i = 0; i < numOfFuncs; ++i) {
+            for (int i = 0; i < kNumOfFuncs; ++i) {
                 measure(funcs[i], i);
             }
             small_random_array->resize();
@@ -248,7 +266,7 @@ struct CheckSortsWorker {
         auto sortRes = func(this->not_full_sorted_array->arr.size(), arr);
         clock_t end = clock();
         testIsSorted(sortRes.first, func_ind);
-        csv_saver->reversed_test.first.push_back(static_cast<double>(end - start) * microSec / CLOCKS_PER_SEC);
+        csv_saver->reversed_test.first.push_back(static_cast<double>(end - start) * kMicroSec / CLOCKS_PER_SEC);
         csv_saver->reversed_test.second.push_back(sortRes.second);
     }
 
@@ -262,7 +280,7 @@ struct CheckSortsWorker {
         auto sortRes = func(this->not_full_sorted_array->arr.size(), arr);
         clock_t end = clock();
         testIsSorted(sortRes.first, func_index);
-        csv_saver->sorted_test.first.push_back(static_cast<double>(end - start) * microSec / CLOCKS_PER_SEC);
+        csv_saver->sorted_test.first.push_back(static_cast<double>(end - start) * kMicroSec / CLOCKS_PER_SEC);
         csv_saver->sorted_test.second.push_back(sortRes.second);
     }
 
@@ -281,6 +299,7 @@ int main() {
     case2->startMeasure();
     case2->saveCSV();
     std::cout << "End" << '\n';
+    // Code for testing all the sorts.
 //    std::vector<int> arr(1000, 0);
 //    std::vector<int> sorted_arr;
 //    for (int i = 0; i < arr.size(); ++i) {
