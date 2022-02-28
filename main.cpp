@@ -227,6 +227,14 @@ struct CheckSortsWorker {
         this->csvPath = csvPath;
     }
 
+    ~CheckSortsWorker(){
+        delete small_random_array;
+        delete big_random_array;
+        delete not_full_sorted_array;
+        delete reversed_array;
+        delete csv_saver;
+    }
+
     void startMeasure() {
         for (size_t j = initialLen; j <= upperBound; j += step) {
             small_random_array->update();
@@ -319,5 +327,7 @@ int main() {
 //        std::cout << "Are arrays elements equal: " << checkArraysElementsEquality(arr, sorted_arr) << '\n';
 //        std::cout << '\n';
 //    }
+    delete case2;
+    delete case1;
     return 0;
 }
